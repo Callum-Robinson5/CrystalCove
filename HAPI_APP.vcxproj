@@ -170,9 +170,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Worldspace.cpp" />
+    <ClCompile Include="XP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Worldspace.h" />
+    <ClInclude Include="XP.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
