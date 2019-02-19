@@ -53,12 +53,12 @@ int XP::getLevel()
 	return m_level;
 }
 
-int XP::setXp(int i)
+void XP::setXp(int i)
 {
 	m_totalXp = i;
 }
 
-int XP::setLevel(int l)
+void XP::setLevel(int l)
 {
 	m_level = l;
 }

@@ -1,3 +1,4 @@
 Screenwidth 1280
 Screenheight 720
-Difficulty 5
+Difficulty 1
+
