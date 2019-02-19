@@ -1,5 +1,4 @@
 #pragma once
-
 #include <HAPISprites_Lib.h>
 
 using namespace HAPISPACE;
@@ -15,8 +14,8 @@ public:
 	void difficulty(int dif);
 	int getXp();
 	int getLevel();
-	int setXp(int i);
-	int setLevel(int l);
+	void setXp(int i);
+	void setLevel(int l);
 
 private:
 

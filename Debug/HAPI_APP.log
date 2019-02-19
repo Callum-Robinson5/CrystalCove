@@ -1,0 +1,7 @@
+﻿  main.cpp
+c:\users\t7091066\source\crystalcove-master 19022019\crystalcove-master\main.cpp(22): fatal error C1083: Cannot open include file: 'HAPISprites_Lib.h': No such file or directory
+  Worldspace.cpp
+c:\users\t7091066\source\crystalcove-master 19022019\crystalcove-master\worldspace.cpp(2): fatal error C1083: Cannot open include file: 'HAPISprites_Lib.h': No such file or directory
+  XP.cpp
+c:\users\t7091066\source\crystalcove-master 19022019\crystalcove-master\xp.h(3): fatal error C1083: Cannot open include file: 'HAPISprites_Lib.h': No such file or directory
+  Generating Code...
