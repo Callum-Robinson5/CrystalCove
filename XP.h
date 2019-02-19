@@ -15,6 +15,8 @@ public:
 	void difficulty(int dif);
 	int getXp();
 	int getLevel();
+	int setXp(int i);
+	int setLevel(int l);
 
 private:
 
