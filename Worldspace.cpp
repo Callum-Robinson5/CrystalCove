@@ -35,7 +35,7 @@ void Worldspace::Game()
 	float i = 50.0f;
 	while (HAPI_Sprites.Update())
 	{
-		i += 60.0f;
+		i += 5.0f;
 		
 		SCREEN_SURFACE->Clear();
 
@@ -46,21 +46,29 @@ void Worldspace::Game()
 		sprite->Render(SCREEN_SURFACE);
 
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
-
+		xp.updateXp();
 
 
 		if (mouse.leftButtonDown)
 		{
-			SaveFile();
+			xp.addXp(100);
+			//SaveFile();
 			std::cout << "Saves" << std::endl;
 		}
 
 		if (mouse.rightButtonDown)
 		{
-			LoadFile();
-			std::cout << "Loads" << std::endl;
+			ResetFile();
+			std::cout << "Reset" << std::endl;
 		}
 	}
+
+	if (!HAPI_Sprites.Update())
+	{
+		SaveFile();
+		std::cout << "test save" << endl;
+	}
+
 
 }
 
@@ -68,6 +76,7 @@ void Worldspace::Initialise()
 {
 // Loading data before game starts
 	ConfigLoad();
+	LoadFile();
 	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined"))
 	{
 		return;
@@ -98,30 +107,29 @@ void Worldspace::ConfigLoad()
 		if (name == "Screenheight")
 		{
 			m_height = input;
-		}
-		if (name == "Difficulty")
-		{
-			m_difficulty = input;
 		}		
 	}
+
+	Config.close();
 }
 
 void Worldspace::SaveFile()
 {
-	
 	ofstream SaveFile;
 	SaveFile.open("Save.txt");
 	if (SaveFile.fail())
 	{
-		HAPI_Sprites.UserMessage("SaveFile bugged", "ERROR");
+		HAPI_Sprites.UserMessage("Save File bugged", "ERROR");
 	}
 
 	int PlayerXp = xp.getXp();
 	int Level = xp.getLevel();
+	int currency = xp.getCurrency();
 
-	SaveFile << "PlayerXp "<< PlayerXp << std::endl;
-	SaveFile << "Level " << Level << std::endl;
-	SaveFile << "Difficulty " << m_difficulty << std::endl;
+	SaveFile << "PlayerXp: " << PlayerXp << std::endl;
+	SaveFile << "Level: " << Level << std::endl;
+	SaveFile << "Currency: " << currency << std::endl;
+	SaveFile << "Difficulty: " << m_difficulty << std::endl;
 	SaveFile.close();
 }
 
@@ -139,21 +147,46 @@ void Worldspace::LoadFile()
 	
 	while (Load >> name >> input)
 	{
-		if (name == "PlayerXP")
+		if (name == "PlayerXP:")
 		{
 			xp.setXp(input);
 		}
-		if (name == "Level")
+		if (name == "Level:")
 		{
 			xp.setLevel(input);
 		}
-		if (name == "Difficulty")
+		if (name == "Currency:")
+		{
+			xp.setCurrency(input);
+		}
+		if (name == "Difficulty:")
 		{
 			m_difficulty = input;
 		}
 		std::cout << input << endl;
 	}
 	Load.close();
-	
+}
 
+void Worldspace::ResetFile()
+{
+	ofstream SaveFile;
+	SaveFile.open("Save.txt");
+	if (SaveFile.fail())
+	{
+		HAPI_Sprites.UserMessage("Save File bugged", "ERROR");
+	}
+
+	int a = 0;
+	int b = 1;
+
+	xp.setCurrency(a);
+	xp.setLevel(b);
+	xp.setXp(a);
+
+	SaveFile << "PlayerXp: " << a << std::endl;
+	SaveFile << "Level: " << b << std::endl;
+	SaveFile << "Currency: " << a << std::endl;
+	SaveFile << "Difficulty: " << m_difficulty << std::endl;
+	SaveFile.close();
 }

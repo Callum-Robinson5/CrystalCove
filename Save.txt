@@ -1,3 +1,4 @@
-PlayerXp 0
-Level 1
-Difficulty 143242
+PlayerXp: 0
+Level: 1
+Currency: 0
+Difficulty: 1

@@ -2,6 +2,7 @@
 #include <HAPISprites_Lib.h>
 
 using namespace HAPISPACE;
+
 class XP
 {
 public:
@@ -15,15 +16,20 @@ public:
 	int getXp();
 	int getLevel();
 	void setXp(int i);
-	void setLevel(int l);
+	void setLevel(int j);
+	int getCurrency();
+	void setCurrency(int k);
+	void addCurrency(int l);
+
 
 private:
 
 	int m_xpToAdd;
-	int m_totalXp{0};
-	int m_level{1};
+	int m_totalXp{ 0 };
+	int m_level{ 1 };
 	int m_difficultyMod;
 	int m_test;
+	int m_currency{ 0 };
 
 };
 

@@ -58,7 +58,23 @@ void XP::setXp(int i)
 	m_totalXp = i;
 }
 
-void XP::setLevel(int l)
+void XP::setLevel(int j)
 {
-	m_level = l;
+	m_level = j;
 }
+
+int XP::getCurrency()
+{
+	return m_currency;
+}
+
+void XP::setCurrency(int k)
+{
+	m_currency = k;
+}
+
+void XP::addCurrency(int l)
+{
+	m_currency += l;
+}
+

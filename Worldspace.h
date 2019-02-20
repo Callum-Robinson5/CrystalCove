@@ -22,6 +22,7 @@ private:
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
+	void ResetFile();
 
 /*
 	// Called when HAPI Sprites detects a key event (repeatadly for key down, once for key up)
