@@ -1,5 +1,6 @@
 #pragma once
 #include "XP.h"
+#include "Map.h"
 class Worldspace //: IHapiSpritesInputListener
 
 

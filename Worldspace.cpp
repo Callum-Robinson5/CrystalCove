@@ -25,6 +25,7 @@ void Worldspace::Game()
 {
 
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
+	Map Maptest;
 
 	if (!sprite)
 	{
@@ -33,6 +34,7 @@ void Worldspace::Game()
 	}
 	
 	float i = 50.0f;
+	xp.difficulty(1);
 	while (HAPI_Sprites.Update())
 	{
 		i += 5.0f;
@@ -43,23 +45,40 @@ void Worldspace::Game()
 		sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
 		sprite->GetTransformComp().SetRotation(i);
 
-		sprite->Render(SCREEN_SURFACE);
+
+		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
+
+		
+		//sprite->Render(SCREEN_SURFACE);
+		Maptest.RenderMap(100);
+
+		//test render for Level
+		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
+		HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
+
+		//test render for xp
+		HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::RED, "XP: ", 40);
+		HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::RED, std::to_string(xp.getXp()), 40);
+		
+		//test render for currency
+		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
+		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
+		
 
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
-		xp.updateXp();
 
+		xp.updateXp();
 
 		if (mouse.leftButtonDown)
 		{
-			xp.addXp(100);
-			//SaveFile();
-			std::cout << "Saves" << std::endl;
+			xp.addXp(1);
+			xp.addCurrency(1);
+			Maptest.GeneratePath(70);
 		}
 
 		if (mouse.rightButtonDown)
 		{
 			ResetFile();
-			std::cout << "Reset" << std::endl;
 		}
 	}
 
