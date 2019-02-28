@@ -8,12 +8,14 @@ public:
 	~Map();
 
 	bool GeneratePath(int Difficulty = 70);
-	void RenderMap(int yOffset);
+	void RenderMap(int &yOffset);
+	const std::vector<HAPISPACE::VectorI>& GetPath() { return m_Path; };
+	void SelectTile(const int & mouseX, const int & mouseY, const int &yOffset);
 
 private:
 	const int m_Width{ 32 };
-	const int m_Height{ 40 };
-	bool m_MapData[2000];
+	const int m_Height{ 100 };
+	bool m_MapData[3200];
 	std::vector<HAPISPACE::VectorI> m_Path;
 };
 
