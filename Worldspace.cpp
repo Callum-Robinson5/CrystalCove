@@ -26,6 +26,7 @@ void Worldspace::Game()
 
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
 	Map Maptest;
+	Maptest.GeneratePath(m_difficulty);
 
 	if (!sprite)
 	{
@@ -33,6 +34,7 @@ void Worldspace::Game()
 		return;
 	}
 	
+	int scrollValue = 0;
 	float i = 50.0f;
 	xp.difficulty(1);
 	while (HAPI_Sprites.Update())
@@ -47,10 +49,10 @@ void Worldspace::Game()
 
 
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
-
-		
+		const HAPISPACE::HAPI_TMouseData &mouseData = HAPI_Sprites.GetMouseData();
+		scrollValue -= mouseData.wheelMovement/3;
 		//sprite->Render(SCREEN_SURFACE);
-		Maptest.RenderMap(100);
+		Maptest.RenderMap(scrollValue);
 
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
@@ -73,7 +75,7 @@ void Worldspace::Game()
 		{
 			xp.addXp(1);
 			xp.addCurrency(1);
-			Maptest.GeneratePath(70);
+			
 		}
 
 		if (mouse.rightButtonDown)

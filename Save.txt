@@ -1,4 +1,4 @@
-PlayerXp: 82
-Level: 5
-Currency: 1432
+PlayerXp: 188
+Level: 3
+Currency: 800
 Difficulty: 1
