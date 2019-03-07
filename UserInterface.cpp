@@ -4,10 +4,8 @@ using namespace HAPI_UI_SPACE;
 
 UserInterface::UserInterface()
 {
-	
 	//UI_AddWindowToListenTo(UI.GetDefaultWindowName());
 }
-
 
 UserInterface::~UserInterface()
 {
@@ -15,12 +13,12 @@ UserInterface::~UserInterface()
 
 bool UserInterface::run()
 {
-	Map map;
+	//Map map;
 	UI.MainWindow()->AddButton("Button1", "Gen Map", EButtonType::eRadio);
-	UI.MainWindow()->PositionObjectAgainstWindowEdge("Button1", EDirection::eNorth);
+	UI.MainWindow()->PositionObjectAgainstWindowEdge("Button1", EDirection::eNorthWest);
 
-	//UI.MainWindow()->AddButton("Button2", "Reset", EButtonType::eRadio);
-	//UI.MainWindow()->PositionRelativeTo("Button2", "Button1", EDirection::eSouth);
+	UI.MainWindow()->AddButton("Button2", "Reset", EButtonType::eRadio);
+	UI.MainWindow()->PositionRelativeTo("Button2", "Button1", EDirection::eSouth);
 
 	return true;
 }
@@ -30,8 +28,14 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 {
 	if (buttonName == "Button1")
 	{
-		std::cout << "Functions dont work lol" << std::endl;
-		m_xp.addXp(100);
-		map.GeneratePath(1);
+		std::cout << "I Work!" << std::endl;
+//		m_xp.addXp(100); // won't work, need a pointer from the xp class
 	}
+
+	if (buttonName == "Button2")
+	{
+		std::cout << "I Work too!" << std::endl;
+		Maptest.GeneratePath(1);
+	}
+
 }

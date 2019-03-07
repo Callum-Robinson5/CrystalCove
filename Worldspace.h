@@ -17,13 +17,16 @@ private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
-	
+
+	Map Maptest;
+
 	class XP xp;
 	void Game();
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
 	void ResetFile();
+
 
 /*
 	// Called when HAPI Sprites detects a key event (repeatadly for key down, once for key up)

@@ -1,11 +1,12 @@
 #include "Worldspace.h"
+#include "UserInterface.h"
+
 #include <HAPISprites_Lib.h>
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
 
-
-
+using namespace HAPI_UI_SPACE;
 using namespace HAPISPACE;
 using namespace std;
 
@@ -24,9 +25,14 @@ Worldspace::~Worldspace()
 void Worldspace::Game()
 {
 
+	UserInterface InGameUI;
+	InGameUI.run();
+	
+
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
-	Map Maptest;
-	Maptest.GeneratePath(m_difficulty);
+	//Map Maptest;
+	int scrollValue = 0;
+	//Maptest.GeneratePath(m_difficulty);
 
 	if (!sprite)
 	{
@@ -34,7 +40,6 @@ void Worldspace::Game()
 		return;
 	}
 	
-	int scrollValue = 0;
 	float i = 50.0f;
 	xp.difficulty(1);
 	while (HAPI_Sprites.Update())
@@ -49,10 +54,14 @@ void Worldspace::Game()
 
 
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
-		const HAPISPACE::HAPI_TMouseData &mouseData = HAPI_Sprites.GetMouseData();
-		scrollValue -= mouseData.wheelMovement/3;
+
+		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
+		scrollValue -= mousedata.wheelMovement / 3;
+
+
 		//sprite->Render(SCREEN_SURFACE);
 		Maptest.RenderMap(scrollValue);
+
 
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
@@ -71,17 +80,19 @@ void Worldspace::Game()
 
 		xp.updateXp();
 
-		if (mouse.leftButtonDown)
+		/*if (mouse.leftButtonDown)
 		{
 			xp.addXp(1);
 			xp.addCurrency(1);
 			
-		}
-
+		}*/
+//		/*
 		if (mouse.rightButtonDown)
 		{
-			ResetFile();
+			//ResetFile();
+			this->Maptest.GeneratePath(m_difficulty);
 		}
+//		*/
 	}
 
 	if (!HAPI_Sprites.Update())
@@ -98,11 +109,10 @@ void Worldspace::Initialise()
 // Loading data before game starts
 	ConfigLoad();
 	LoadFile();
-	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined"))
+	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined", eHSEnableUI))
 	{
 		return;
 	}
-	
 	Game();
 }
 
