@@ -1,6 +1,8 @@
 #pragma once
-#include "XP.h"
+
+#include "UserInterface.h"
 #include "Map.h"
+#include "XP.h"
 class Worldspace //: IHapiSpritesInputListener
 
 
@@ -17,10 +19,10 @@ private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
-
-	Map Maptest;
+	
 
 	class XP xp;
+	
 	void Game();
 	void ConfigLoad();
 	void SaveFile();

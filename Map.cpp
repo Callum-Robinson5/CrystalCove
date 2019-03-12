@@ -1,7 +1,5 @@
 #include "Map.h"
 
-
-
 Map::Map()
 {
 	memset(m_MapData, 0, m_Width * m_Height);

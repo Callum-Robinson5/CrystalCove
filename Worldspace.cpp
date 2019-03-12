@@ -13,7 +13,7 @@ using namespace std;
 
 Worldspace::Worldspace()
 {
-
+	
 }
 
 
@@ -27,6 +27,8 @@ void Worldspace::Game()
 
 	UserInterface InGameUI;
 	InGameUI.run();
+
+	
 	
 
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
@@ -58,9 +60,10 @@ void Worldspace::Game()
 		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
 		scrollValue -= mousedata.wheelMovement / 3;
 
+		InGameUI.Map_Pointer->RenderMap(scrollValue);
 
 		//sprite->Render(SCREEN_SURFACE);
-		Maptest.RenderMap(scrollValue);
+		
 
 
 		//test render for Level
@@ -80,19 +83,7 @@ void Worldspace::Game()
 
 		xp.updateXp();
 
-		/*if (mouse.leftButtonDown)
-		{
-			xp.addXp(1);
-			xp.addCurrency(1);
-			
-		}*/
-//		/*
-		if (mouse.rightButtonDown)
-		{
-			//ResetFile();
-			this->Maptest.GeneratePath(m_difficulty);
-		}
-//		*/
+		
 	}
 
 	if (!HAPI_Sprites.Update())
