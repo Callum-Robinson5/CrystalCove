@@ -21,20 +21,19 @@ Worldspace::~Worldspace()
 {
 
 }
+void Worldspace::MainMenu()
+{
+//	Menu.MainMenuUI();
+}
 
 void Worldspace::Game()
-{
-
-	UserInterface InGameUI;
-	InGameUI.run();
-
-	
-	
-
+{	
+	UserInterface Menu;
+	Menu.MainMenuUI();
+//	Menu.Run();
+		
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
-	//Map Maptest;
 	int scrollValue = 0;
-	//Maptest.GeneratePath(m_difficulty);
 
 	if (!sprite)
 	{
@@ -42,17 +41,15 @@ void Worldspace::Game()
 		return;
 	}
 	
-	float i = 50.0f;
+	
 	xp.difficulty(1);
 	while (HAPI_Sprites.Update())
 	{
-		i += 5.0f;
+		
 		
 		SCREEN_SURFACE->Clear();
 
-		sprite->GetTransformComp().SetPosition({ 200,200 });
-		sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
-		sprite->GetTransformComp().SetRotation(i);
+	
 
 
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
@@ -60,7 +57,7 @@ void Worldspace::Game()
 		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
 		scrollValue -= mousedata.wheelMovement / 3;
 
-		InGameUI.Map_Pointer->RenderMap(scrollValue);
+		Menu.Map_Pointer->RenderMap(scrollValue);
 
 		//sprite->Render(SCREEN_SURFACE);
 		
@@ -89,7 +86,7 @@ void Worldspace::Game()
 	if (!HAPI_Sprites.Update())
 	{
 		SaveFile();
-		std::cout << "test save" << endl;
+//		std::cout << "test save" << endl;
 	}
 
 
@@ -105,6 +102,11 @@ void Worldspace::Initialise()
 		return;
 	}
 	Game();
+}
+
+HAPISPACE::VectorI Worldspace::GetScreenSize()
+{
+	return HAPISPACE::VectorI(m_width, m_height);
 }
 
 void Worldspace::ConfigLoad()

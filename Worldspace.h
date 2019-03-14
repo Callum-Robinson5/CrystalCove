@@ -3,15 +3,15 @@
 #include "UserInterface.h"
 #include "Map.h"
 #include "XP.h"
-class Worldspace //: IHapiSpritesInputListener
 
+class Worldspace //: IHapiSpritesInputListener
 
 { 
 public:
 	Worldspace();
 	~Worldspace();
 	void Initialise();
-	
+	HAPISPACE::VectorI GetScreenSize();
 
 	
 
@@ -20,10 +20,10 @@ private:
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
 	
-
 	class XP xp;
-	
+
 	void Game();
+	void MainMenu();
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
