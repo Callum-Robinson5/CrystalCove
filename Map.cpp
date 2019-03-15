@@ -38,8 +38,9 @@ bool Map::GeneratePath(int Difficulty)
 	pointer += position;
 	*pointer = 1;
 
-
 	m_Path.clear();
+
+	m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 40, ((position - (position % m_Width)) / m_Width) * 40));
 	if (Difficulty == 0)
 	{
 		while (position < m_Width * m_Height - m_Width)
@@ -62,7 +63,7 @@ bool Map::GeneratePath(int Difficulty)
 							position += Left;
 							lastDirection = 'l';
 							*pointer = 1;
-							m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+							m_Path.push_back(HAPISPACE::VectorF((position % m_Width)*40, ((position - (position % m_Width)) / m_Width)*40));
 							Continue = true;
 						}
 					}
@@ -78,7 +79,7 @@ bool Map::GeneratePath(int Difficulty)
 							position += Right;
 							lastDirection = 'r';
 							*pointer = 1;
-							m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+							m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 40, ((position - (position % m_Width)) / m_Width) * 40));
 							Continue = true;
 						}
 					}
@@ -93,7 +94,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 40, ((position - (position % m_Width)) / m_Width) * 40));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -156,7 +157,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 40, ((position - (position % m_Width)) / m_Width) * 40));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -168,7 +169,7 @@ bool Map::GeneratePath(int Difficulty)
 					break;
 				}
 			}
-			m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+			m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 40, ((position - (position % m_Width)) / m_Width) * 40));
 		}
 	}
 	else
@@ -218,7 +219,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF(position % m_Width, (position - (position % m_Width)) / m_Width));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
