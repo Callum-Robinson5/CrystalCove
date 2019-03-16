@@ -1,6 +1,7 @@
 #pragma once
 #include <HAPISprites_Lib.h>
 #include "XP.h"
+
 using namespace HAPISPACE;
 class EnemyAI
 {

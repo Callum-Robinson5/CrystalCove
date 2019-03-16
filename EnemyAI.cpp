@@ -6,10 +6,10 @@ EnemyAI::EnemyAI()
 {
 }
 
-
 EnemyAI::~EnemyAI()
 {
 }
+
 
 void EnemyAI::spawn(XP* xp, int yPos = 0)
 {
