@@ -10,19 +10,21 @@ EnemyAI::~EnemyAI()
 {
 }
 
-void EnemyAI::spawn()
+
+void EnemyAI::spawn(XP* xp, int yPos = 0)
 {
 	if (!sprite)
 	{
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
 		return;
 	}
-
+	
 	//sprite->SetAutoAnimate(20, true, "Right");
-
-	m_Position = { 16 * 40,-100 };
-	sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
-	sprite->GetTransformComp().SetRotation(0.1f);
+	m_Checkpoint = 0;
+	m_Xp = xp;
+	m_Position = { 5 * 100,-100 };
+	m_Position.y += yPos;
+	sprite->GetTransformComp().SetScaling({ 0.4f, 0.5f });
 	m_Alive = true;
 	m_Died = false;
 
@@ -78,6 +80,16 @@ bool EnemyAI::isAlive()
 
 void EnemyAI::die()
 {
+	if (enemy_health <= 0)
+	{
+		m_Xp->addXp(5);
+		m_Xp->addCurrency(2);
+	}
+	else
+	{
+		m_Xp->addXp(2);
+		m_Xp->addCurrency(1);
+	}
 	m_Alive = false;
 	m_Died = true;
 	//include smoke puff animation

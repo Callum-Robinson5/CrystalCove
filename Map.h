@@ -13,8 +13,8 @@ public:
 	void SelectTile(const int & mouseX, const int & mouseY, const int &yOffset);
 
 private:
-	const int m_Width{ 26 };
-	const int m_Height{ 30 };
+	const int m_Width{ 10 };
+	const int m_Height{ 50 };
 	bool m_MapData[3200];
 	std::vector<HAPISPACE::VectorF> m_Path;
 };
