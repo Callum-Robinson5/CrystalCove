@@ -30,9 +30,8 @@ using namespace HAPISPACE;
 
 void HAPI_Sprites_Main()
 {
-	
+
 	Worldspace World;
 	World.Initialise();
-
 	
 }

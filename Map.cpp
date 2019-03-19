@@ -1,7 +1,5 @@
 #include "Map.h"
 
-
-
 Map::Map()
 {
 	memset(m_MapData, 0, m_Width * m_Height);
@@ -38,9 +36,8 @@ bool Map::GeneratePath(int Difficulty)
 	pointer += position;
 	*pointer = 1;
 
-	m_Path.clear();
 
-	m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
+	m_Path.clear();
 	if (Difficulty == 0)
 	{
 		while (position < m_Width * m_Height - m_Width)
@@ -63,7 +60,7 @@ bool Map::GeneratePath(int Difficulty)
 							position += Left;
 							lastDirection = 'l';
 							*pointer = 1;
-							m_Path.push_back(HAPISPACE::VectorF((position % m_Width)*100, ((position - (position % m_Width)) / m_Width)*100));
+							m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
 							Continue = true;
 						}
 					}
@@ -79,7 +76,7 @@ bool Map::GeneratePath(int Difficulty)
 							position += Right;
 							lastDirection = 'r';
 							*pointer = 1;
-							m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
+							m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
 							Continue = true;
 						}
 					}
@@ -94,7 +91,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
+						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -157,7 +154,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
+						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -169,7 +166,7 @@ bool Map::GeneratePath(int Difficulty)
 					break;
 				}
 			}
-			m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
+			m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
 		}
 	}
 	else
@@ -219,7 +216,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorF(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -243,12 +240,10 @@ void Map::RenderMap(int &yOffset)
 {
 	if (yOffset < 0)
 		yOffset = 0;
-	else if (yOffset > 100 * (m_Height - 8))
-		yOffset = 100 * (m_Height - 8);
+	else if (yOffset > 40 * (m_Height - 20))
+		yOffset = 40 * (m_Height - 20);
 	std::shared_ptr<HAPISPACE::Sprite> green = HAPI_Sprites.MakeSprite("Data\\Grass.png");
-	green->GetTransformComp().SetScaling({ 2.5,2.5 });
 	std::shared_ptr<HAPISPACE::Sprite> pink = HAPI_Sprites.MakeSprite("Data\\Sand.png");
-	pink->GetTransformComp().SetScaling({ 2.5,2.5 });
 	bool* pointer = m_MapData;
 	for (int i{ 0 }; i < m_Height; i++)
 	{
@@ -256,14 +251,14 @@ void Map::RenderMap(int &yOffset)
 		{
 			if (*pointer == 0)
 			{
-				green->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
+				green->GetTransformComp().SetPosition({ (float)(j * 40), (float)((i * 40) - yOffset) });
 				green->Render(SCREEN_SURFACE);
 				//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::GREEN, std::to_string(*pointer), 20);
 				pointer++;
 			}
 			else if(*pointer == 1)
 			{
-				pink->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
+				pink->GetTransformComp().SetPosition({ (float)(j * 40), (float)((i * 40) - yOffset) });
 				pink->Render(SCREEN_SURFACE);
 				//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
 				pointer++;
