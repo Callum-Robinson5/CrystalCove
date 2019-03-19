@@ -74,6 +74,9 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 		std::cout << "Loading Options" << std::endl;
 		// make optional buttons appear (for example; music volume)
 		loadMenu = false;
+		//add music volume button
+		//fullscreen / resolution
+		//credits
 	}
 
 	if (buttonName == "Exit")
