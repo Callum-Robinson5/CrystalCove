@@ -168,12 +168,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyAI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Worldspace.cpp" />
     <ClCompile Include="XP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyAI.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Worldspace.h" />
     <ClInclude Include="XP.h" />

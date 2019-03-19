@@ -34,9 +34,9 @@ void Worldspace::Game()
 		return;
 	}
 	
-	int scrollValue = 0;
 	float i = 50.0f;
 	xp.difficulty(1);
+
 	while (HAPI_Sprites.Update())
 	{
 		i += 5.0f;
@@ -53,6 +53,10 @@ void Worldspace::Game()
 		scrollValue -= mouseData.wheelMovement/3;
 		//sprite->Render(SCREEN_SURFACE);
 		Maptest.RenderMap(scrollValue);
+		for (auto & enemy : Enemies)
+		{
+			enemy.update(scrollValue, Maptest.GetPath());
+		}
 
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
@@ -73,9 +77,7 @@ void Worldspace::Game()
 
 		if (mouse.leftButtonDown)
 		{
-			xp.addXp(1);
-			xp.addCurrency(1);
-			
+			SpawnWave(20, 70);
 		}
 
 		if (mouse.rightButtonDown)
@@ -91,6 +93,29 @@ void Worldspace::Game()
 	}
 
 
+}
+
+void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
+{
+	bool allDead = true;
+	for (auto & enemy : Enemies)
+	{
+		if (enemy.isAlive())
+		{
+			allDead = false;
+			break;
+		}
+	}
+	
+	if (allDead)
+	{
+		Enemies.clear();
+		for (int i{ 0 }; i < numEnemies; i++)
+		{
+			Enemies.push_back(EnemyAI());
+			Enemies[Enemies.size() - 1].spawn(&xp, -(i*distanceBetweenEnemies));
+		}
+	}
 }
 
 void Worldspace::Initialise()

@@ -22,10 +22,10 @@ private:
 	int m_Checkpoint = 0;
 	int m_speed{ 10 };
 	VectorF m_Position;
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.LoadSprite("Data\\Troll2.xml");
+	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Golem.png");
 	int enemy_health{10};
 	bool m_Alive{ false };
-	bool m_Died{ false };
+	bool m_Died{ true };
 	XP* m_Xp;
 };
 
