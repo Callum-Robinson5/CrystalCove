@@ -2,9 +2,6 @@
 #include "Map.h"
 #include "Worldspace.h"
 
-
-
-
 using namespace HAPI_UI_SPACE;
 
 UserInterface::UserInterface()
@@ -22,9 +19,7 @@ UserInterface::~UserInterface()
 
 bool UserInterface::Run()
 {
-	
 
-	
 	UI.MainWindow()->AddButton("Button1", "Gen Map", EButtonType::eRadio);
 	UI.MainWindow()->PositionObjectAgainstWindowEdge("Button1", EDirection::eNorthWest);
 
@@ -37,20 +32,27 @@ bool UserInterface::Run()
 	return true;
 }
 
-bool UserInterface::MainMenuUI()
+void UserInterface::MainMenuUI()
 {
 	
-	UI.MainWindow()->AddButton("Start", "Start", EButtonType::eRadio);
-	HAPISPACE::VectorI ButtonPos(world->GetScreenSize() / 2);
-	UI.MainWindow()->SetScreenPosition(ButtonPos);
+	if (loadMenu == true)
+	{
+		UI.MainWindow()->AddButton("Start", "Start", EButtonType::eRadio);
+		HAPISPACE::VectorI ButtonPos(world->GetScreenSize() / 2);
+		UI.MainWindow()->SetScreenPosition(ButtonPos);
 
-	UI.MainWindow()->AddButton("Options", "Options", EButtonType::eRadio);
-	UI.MainWindow()->PositionRelativeTo("Options", "Start", EDirection::eSouth);
+		UI.MainWindow()->AddButton("Options", "Options", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Options", "Start", EDirection::eSouth);
 
-	UI.MainWindow()->AddButton("Exit", "Exit", EButtonType::eRadio);
-	UI.MainWindow()->PositionRelativeTo("Exit", "Options", EDirection::eSouth);
-
-	return true;
+		UI.MainWindow()->AddButton("Exit", "Exit", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Exit", "Options", EDirection::eSouth);
+	}
+	else
+	{
+		UI.MainWindow()->DeleteObject("Start");
+		UI.MainWindow()->DeleteObject("Options");
+		UI.MainWindow()->DeleteObject("Exit");
+	}
 }
 
 
@@ -62,21 +64,24 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 	{
 		std::cout << "Starting Game" << std::endl;
 		// run the game code from worldspace
+		Map_Pointer->GeneratePath(1);
+		loadMenu = false;
+		
 	}
 
 	if (buttonName == "Options")
 	{
 		std::cout << "Loading Options" << std::endl;
 		// make optional buttons appear (for example; music volume)
+		loadMenu = false;
 	}
 
 	if (buttonName == "Exit")
 	{
 		std::cout << "Exiting Game" << std::endl;
-		ExitGame(); // doesnt work rn
-
+		//exit game
+		loadMenu = false;
 	}
-
 
 	//In game UI
 
@@ -88,14 +93,10 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 	if (buttonName == "Button2")
 	{
 		std::cout << "I Work too!" << std::endl;
-		Map_Pointer->GeneratePath(1);
+	//	Map_Pointer->GeneratePath(1);
 		// add condition that the player has passed a level
 	}
 
 }
 
-int UserInterface::ExitGame()
-{
-	return 0;
-}
 

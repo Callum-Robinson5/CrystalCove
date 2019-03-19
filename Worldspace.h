@@ -1,11 +1,12 @@
 #pragma once
 
-#include "UserInterface.h"
+
 #include "Map.h"
 #include "XP.h"
+#include "UserInterface.h"
+
 
 class Worldspace //: IHapiSpritesInputListener
-
 { 
 public:
 	Worldspace();
@@ -19,11 +20,13 @@ private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
+
 	
+	//UserInterface *Menu{ nullptr };
 	class XP xp;
 
 	void Game();
-	void MainMenu();
+	
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();

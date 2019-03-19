@@ -17,12 +17,13 @@ public:
 	UserInterface();
 	~UserInterface();
 	bool Run();
-	bool MainMenuUI();
-	int ExitGame();
+	void MainMenuUI();
 	Map *Map_Pointer{ nullptr }; //declared pointer towards the Map class
+	Worldspace *world{ nullptr }; //declared pointer towards the worldspace class
+	bool loadMenu = true;
+	
 
 private:
-	Worldspace *world{ nullptr };
 	
 //	void UI_ButtonPressed(UIWindow& window, const std::string& buttonName, int* userId = nullptr) override;
 	void UI_RadioButtonChangeState(UIWindow& window, const std::string& buttonName, bool pressed, int* userId = nullptr) override;

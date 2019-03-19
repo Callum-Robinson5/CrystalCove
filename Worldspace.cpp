@@ -1,10 +1,10 @@
 #include "Worldspace.h"
 #include "UserInterface.h"
-
 #include <HAPISprites_Lib.h>
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
+#include "UserInterface.h"
 
 using namespace HAPI_UI_SPACE;
 using namespace HAPISPACE;
@@ -19,19 +19,14 @@ Worldspace::Worldspace()
 
 Worldspace::~Worldspace()
 {
+	
+}
 
-}
-void Worldspace::MainMenu()
-{
-//	Menu.MainMenuUI();
-}
 
 void Worldspace::Game()
 {	
 	UserInterface Menu;
-	Menu.MainMenuUI();
-//	Menu.Run();
-		
+			
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
 	int scrollValue = 0;
 
@@ -41,17 +36,13 @@ void Worldspace::Game()
 		return;
 	}
 	
-	
+	int test = 0;
 	xp.difficulty(1);
 	while (HAPI_Sprites.Update())
 	{
 		
-		
 		SCREEN_SURFACE->Clear();
-
-	
-
-
+		
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
 
 		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
@@ -60,8 +51,6 @@ void Worldspace::Game()
 		Menu.Map_Pointer->RenderMap(scrollValue);
 
 		//sprite->Render(SCREEN_SURFACE);
-		
-
 
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
@@ -75,18 +64,19 @@ void Worldspace::Game()
 		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
 		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
 		
-
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
 
 		xp.updateXp();
 
-		
+		Menu.MainMenuUI();
+			
 	}
+
+	
 
 	if (!HAPI_Sprites.Update())
 	{
 		SaveFile();
-//		std::cout << "test save" << endl;
 	}
 
 
@@ -187,7 +177,6 @@ void Worldspace::LoadFile()
 		{
 			m_difficulty = input;
 		}
-		std::cout << input << endl;
 	}
 	Load.close();
 }
