@@ -24,7 +24,6 @@ void EnemyAI::spawn(XP* xp, int yPos = 0)
 	m_Xp = xp;
 	m_Position = { 5 * 100,-100 };
 	m_Position.y += yPos;
-	sprite->GetTransformComp().SetScaling({ 0.4f, 0.5f });
 	m_Alive = true;
 	m_Died = false;
 

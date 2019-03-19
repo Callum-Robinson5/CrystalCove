@@ -1,6 +1,7 @@
 #pragma once
 #include "XP.h"
 #include "Map.h"
+#include "EnemyAI.h"
 class Worldspace //: IHapiSpritesInputListener
 
 
@@ -9,6 +10,9 @@ public:
 	Worldspace();
 	~Worldspace();
 	void Initialise();
+
+	const std::vector<EnemyAI> GetEnemies() { return Enemies; };
+
 	
 
 	
@@ -17,9 +21,13 @@ private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
+	int scrollValue{ 0 };
+
+	std::vector<EnemyAI> Enemies;
 	
 	class XP xp;
 	void Game();
+	void SpawnWave(int numEnemies, int distanceBetweenEnemies);
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();

@@ -1,4 +1,4 @@
-PlayerXp: 188
+PlayerXp: 0
 Level: 3
 Currency: 800
 Difficulty: 1
