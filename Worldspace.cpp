@@ -1,32 +1,34 @@
 #include "Worldspace.h"
+#include "UserInterface.h"
 #include <HAPISprites_Lib.h>
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
+#include "UserInterface.h"
 
-
-
+using namespace HAPI_UI_SPACE;
 using namespace HAPISPACE;
 using namespace std;
 
 
 Worldspace::Worldspace()
 {
-
+	
 }
 
 
 Worldspace::~Worldspace()
 {
-
+	
 }
 
-void Worldspace::Game()
-{
 
+void Worldspace::Game()
+{	
+	UserInterface Menu;
+			
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
-	Map Maptest;
-	Maptest.GeneratePath(m_difficulty);
+	int scrollValue = 0;
 
 	if (!sprite)
 	{
@@ -34,29 +36,21 @@ void Worldspace::Game()
 		return;
 	}
 	
-	float i = 50.0f;
+	int test = 0;
 	xp.difficulty(1);
-
 	while (HAPI_Sprites.Update())
 	{
-		i += 5.0f;
 		
 		SCREEN_SURFACE->Clear();
-
-		sprite->GetTransformComp().SetPosition({ 200,200 });
-		sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
-		sprite->GetTransformComp().SetRotation(i);
-
-
+		
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
-		const HAPISPACE::HAPI_TMouseData &mouseData = HAPI_Sprites.GetMouseData();
-		scrollValue -= mouseData.wheelMovement/3;
+
+		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
+		scrollValue -= mousedata.wheelMovement / 3;
+
+		Menu.Map_Pointer->RenderMap(scrollValue);
+
 		//sprite->Render(SCREEN_SURFACE);
-		Maptest.RenderMap(scrollValue);
-		for (auto & enemy : Enemies)
-		{
-			enemy.update(scrollValue, Maptest.GetPath());
-		}
 
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
@@ -70,52 +64,22 @@ void Worldspace::Game()
 		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
 		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
 		
-
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
 
 		xp.updateXp();
 
-		if (mouse.leftButtonDown)
-		{
-			SpawnWave(20, 70);
-		}
-
-		if (mouse.rightButtonDown)
-		{
-			ResetFile();
-		}
+		Menu.MainMenuUI();
+			
 	}
+
+	
 
 	if (!HAPI_Sprites.Update())
 	{
 		SaveFile();
-		std::cout << "test save" << endl;
 	}
 
 
-}
-
-void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
-{
-	bool allDead = true;
-	for (auto & enemy : Enemies)
-	{
-		if (enemy.isAlive())
-		{
-			allDead = false;
-			break;
-		}
-	}
-	
-	if (allDead)
-	{
-		Enemies.clear();
-		for (int i{ 0 }; i < numEnemies; i++)
-		{
-			Enemies.push_back(EnemyAI());
-			Enemies[Enemies.size() - 1].spawn(&xp, -(i*distanceBetweenEnemies));
-		}
-	}
 }
 
 void Worldspace::Initialise()
@@ -123,12 +87,16 @@ void Worldspace::Initialise()
 // Loading data before game starts
 	ConfigLoad();
 	LoadFile();
-	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined"))
+	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined", eHSEnableUI))
 	{
 		return;
 	}
-	
 	Game();
+}
+
+HAPISPACE::VectorI Worldspace::GetScreenSize()
+{
+	return HAPISPACE::VectorI(m_width, m_height);
 }
 
 void Worldspace::ConfigLoad()
@@ -209,7 +177,6 @@ void Worldspace::LoadFile()
 		{
 			m_difficulty = input;
 		}
-		std::cout << input << endl;
 	}
 	Load.close();
 }
