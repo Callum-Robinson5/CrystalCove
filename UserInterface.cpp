@@ -3,6 +3,7 @@
 #include "Worldspace.h"
 
 using namespace HAPI_UI_SPACE;
+using namespace HAPISPACE;
 
 UserInterface::UserInterface()
 {
@@ -17,20 +18,8 @@ UserInterface::~UserInterface()
 	delete world;
 }
 
-bool UserInterface::Run()
-{
 
-	UI.MainWindow()->AddButton("Button1", "Gen Map", EButtonType::eRadio);
-	UI.MainWindow()->PositionObjectAgainstWindowEdge("Button1", EDirection::eNorthWest);
 
-	HAPISPACE::VectorI test(world->GetScreenSize()/2);
-	UI.MainWindow()->SetScreenPosition(test);
-
-	UI.MainWindow()->AddButton("Button2", "Reset", EButtonType::eRadio);
-	UI.MainWindow()->PositionRelativeTo("Button2", "Button1", EDirection::eSouth); // remove the vector and recomment this in for a working version
-	
-	return true;
-}
 
 void UserInterface::MainMenuUI()
 {
@@ -46,6 +35,7 @@ void UserInterface::MainMenuUI()
 
 		UI.MainWindow()->AddButton("Exit", "Exit", EButtonType::eRadio);
 		UI.MainWindow()->PositionRelativeTo("Exit", "Options", EDirection::eSouth);
+
 	}
 	else
 	{
@@ -53,8 +43,62 @@ void UserInterface::MainMenuUI()
 		UI.MainWindow()->DeleteObject("Options");
 		UI.MainWindow()->DeleteObject("Exit");
 	}
+
 }
 
+void UserInterface::GameUI()
+{
+
+	if (loadgameUi == true)
+	{
+		
+		UI.MainWindow()->AddButton("Tower1", "Tower1", EButtonType::eRadio);
+		//UI.MainWindow()->PositionObjectAgainstWindowEdge("Tower 1", EDirection::eNorthEast);
+		HAPISPACE::VectorI Test(world->GetScreenSize().x -100, 100);
+		UI.MainWindow()->SetScreenPosition(Test);
+
+		UI.MainWindow()->AddButton("Tower2", "Tower2", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower2", "Tower1", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower3", "Tower3", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower3", "Tower2", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower4", "Tower4", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower4", "Tower3", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower5", "Tower5", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower5", "Tower4", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower6", "Tower6", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower6", "Tower5", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower7", "Tower7", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower7", "Tower6", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower8", "Tower8", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower8", "Tower7", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower9", "Tower9", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower9", "Tower8", EDirection::eSouth);
+
+		UI.MainWindow()->AddButton("Tower10", "Tower10", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Tower10", "Tower9", EDirection::eSouth);
+	}
+	else
+	{
+		UI.MainWindow()->DeleteObject("Tower1");
+		UI.MainWindow()->DeleteObject("Tower2");
+		UI.MainWindow()->DeleteObject("Tower3");
+		UI.MainWindow()->DeleteObject("Tower4");
+		UI.MainWindow()->DeleteObject("Tower5");
+		UI.MainWindow()->DeleteObject("Tower6");
+		UI.MainWindow()->DeleteObject("Tower7");
+		UI.MainWindow()->DeleteObject("Tower8");
+		UI.MainWindow()->DeleteObject("Tower9");
+		UI.MainWindow()->DeleteObject("Tower10");
+	}
+
+}
 
 void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::string& buttonName, bool pressed, int* userId)
 {
@@ -66,6 +110,7 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 		// run the game code from worldspace
 		Map_Pointer->GeneratePath(1);
 		loadMenu = false;
+		loadgameUi = true;
 		
 	}
 
@@ -74,33 +119,73 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 		std::cout << "Loading Options" << std::endl;
 		// make optional buttons appear (for example; music volume)
 		loadMenu = false;
+		UI.MainWindow()->AddButton("Test", "Test", EButtonType::eRadio);
+		UI.MainWindow()->PositionRelativeTo("Test", "Start", EDirection::eSouth);
 		//add music volume button
 		//fullscreen / resolution
 		//credits
+		world->ResetFile();
 
 	}
 
 	if (buttonName == "Exit")
 	{
 		std::cout << "Exiting Game" << std::endl;
-		//exit game
 		loadMenu = false;
+		HAPI_Sprites.Close(); //exits HAPI
 	}
 
 	//In game UI
 
-	if (buttonName == "Button1")
+	if (buttonName == "Tower 1")
 	{
-		std::cout << "I Work!" << std::endl;
+		std::cout << "Tower 1 successfully placed" << std::endl;
 	}
 
-	if (buttonName == "Button2")
+	if (buttonName == "Tower 2")
 	{
-		std::cout << "I Work too!" << std::endl;
-	//	Map_Pointer->GeneratePath(1);
-		// add condition that the player has passed a level
+		std::cout << "Tower 2 successfully placed" << std::endl;
 	}
 
+	if (buttonName == "Tower 3")
+	{
+		std::cout << "Tower 3 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 4")
+	{
+		std::cout << "Tower 4 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 5")
+	{
+		std::cout << "Tower 5 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 6")
+	{
+		std::cout << "Tower 6 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 7")
+	{
+		std::cout << "Tower 7 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 8")
+	{
+		std::cout << "Tower 8 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 9")
+	{
+		std::cout << "Tower 9 successfully placed" << std::endl;
+	}
+
+	if (buttonName == "Tower 10")
+	{
+		std::cout << "Tower 10 successfully placed" << std::endl;
+	}
 }
 
 

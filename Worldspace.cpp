@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
-#include "UserInterface.h"
 
 using namespace HAPI_UI_SPACE;
 using namespace HAPISPACE;
@@ -26,6 +25,8 @@ Worldspace::~Worldspace()
 void Worldspace::Game()
 {	
 	UserInterface Menu;
+	Menu.MainMenuUI();
+	Menu.GameUI();
 			
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
 	int scrollValue = 0;
@@ -69,9 +70,11 @@ void Worldspace::Game()
 		xp.updateXp();
 
 		Menu.MainMenuUI();
+		Menu.GameUI();
 			
 	}
 
+	
 	
 
 	if (!HAPI_Sprites.Update())
