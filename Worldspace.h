@@ -13,7 +13,7 @@ public:
 	~Worldspace();
 	void Initialise();
 	HAPISPACE::VectorI GetScreenSize();
-
+	void ResetFile();
 	
 
 private:
@@ -30,7 +30,7 @@ private:
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
-	void ResetFile();
+	
 
 
 /*
