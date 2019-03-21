@@ -2,6 +2,8 @@
 #include "Map.h"
 #include "Worldspace.h"
 
+
+
 using namespace HAPI_UI_SPACE;
 using namespace HAPISPACE;
 
@@ -9,6 +11,7 @@ UserInterface::UserInterface()
 {
 	Map_Pointer = new Map;
 	world = new Worldspace;
+	//tower_AI = new TowerAI;
 	//UI_AddWindowToListenTo(UI.GetDefaultWindowName());
 }
 
@@ -16,6 +19,7 @@ UserInterface::~UserInterface()
 {
 	delete Map_Pointer;
 	delete world;
+	//delete tower_AI;
 }
 
 
@@ -137,17 +141,18 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 
 	//In game UI
 
-	if (buttonName == "Tower 1")
+	if (buttonName == "Tower1")
 	{
 		std::cout << "Tower 1 successfully placed" << std::endl;
+		tower1 = true;
 	}
 
-	if (buttonName == "Tower 2")
+	if (buttonName == "Tower2")
 	{
 		std::cout << "Tower 2 successfully placed" << std::endl;
 	}
 
-	if (buttonName == "Tower 3")
+	if (buttonName == "Tower3")
 	{
 		std::cout << "Tower 3 successfully placed" << std::endl;
 	}

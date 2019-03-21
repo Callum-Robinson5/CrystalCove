@@ -50,6 +50,7 @@ void Worldspace::Game()
 		scrollValue -= mousedata.wheelMovement / 3;
 
 		Menu.Map_Pointer->RenderMap(scrollValue);
+		Menu.tower_AI.render(scrollValue);
 
 		//sprite->Render(SCREEN_SURFACE);
 
@@ -66,11 +67,16 @@ void Worldspace::Game()
 		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
 		
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
+		if (mouse.leftButtonDown && Menu.tower1 == true)
+		{
+			Menu.tower_AI.spawn(Menu.yoff);
+		}
 
 		xp.updateXp();
 
 		Menu.MainMenuUI();
 		Menu.GameUI();
+		
 			
 	}
 

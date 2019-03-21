@@ -2,13 +2,14 @@
 #include <HAPISprites_Lib.h>
 #include <HAPISprites_UI.h>
 #include <iostream>
-
+#include "TowerAI.h"
 
 
 using namespace HAPI_UI_SPACE;
 
 class Map;
 class Worldspace;
+
 
 
 class UserInterface : public IHapiSpritesUIListener
@@ -20,8 +21,11 @@ public:
 	void GameUI();
 	Map *Map_Pointer{ nullptr }; //declared pointer towards the Map class
 	Worldspace *world{ nullptr }; //declared pointer towards the worldspace class
+	class TowerAI tower_AI;
 	bool loadMenu = true;
 	bool loadgameUi = false;
+	int yoff = 1;
+	bool tower1 = false;
 	
 
 private:
