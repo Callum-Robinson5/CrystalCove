@@ -1,35 +1,33 @@
 #include "Worldspace.h"
-#include "UserInterface.h"
 #include <HAPISprites_Lib.h>
 #include <stdlib.h>
 #include <fstream>
 #include <iostream>
 
-using namespace HAPI_UI_SPACE;
+
+
 using namespace HAPISPACE;
 using namespace std;
 
 
 Worldspace::Worldspace()
 {
-	
+
 }
 
 
 Worldspace::~Worldspace()
 {
-	
+
 }
 
-
 void Worldspace::Game()
-{	
-	UserInterface Menu;
-	Menu.MainMenuUI();
-	Menu.GameUI();
-			
+{
+
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
-	int scrollValue = 0;
+	Map Maptest;
+	Maptest.GeneratePath(m_difficulty);
+	std::vector<TowerAI> Towers;
 
 	if (!sprite)
 	{
@@ -37,22 +35,44 @@ void Worldspace::Game()
 		return;
 	}
 	
-	int test = 0;
+	float i = 50.0f;
 	xp.difficulty(1);
+
 	while (HAPI_Sprites.Update())
 	{
+		i += 5.0f;
 		
 		SCREEN_SURFACE->Clear();
-		
+
+		sprite->GetTransformComp().SetPosition({ 200,200 });
+		sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
+		sprite->GetTransformComp().SetRotation(i);
+
+
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
-
-		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
-		scrollValue -= mousedata.wheelMovement / 3;
-
-		Menu.Map_Pointer->RenderMap(scrollValue);
-
+		const HAPISPACE::HAPI_TMouseData &mouseData = HAPI_Sprites.GetMouseData();
+		scrollValue -= mouseData.wheelMovement/3;
 		//sprite->Render(SCREEN_SURFACE);
+		Maptest.RenderMap(scrollValue);
 
+		for (auto & enemy : Enemies)
+		{
+			enemy.update(scrollValue, Maptest.GetPath());
+		}
+
+		for (auto & projectile : m_Projectiles)
+		{
+			projectile.move();
+			projectile.render(scrollValue);
+		}
+
+		for (auto & tower : Towers)
+		{
+			tower.render(scrollValue);
+			tower.towerLOS(Enemies, m_Projectiles);
+		}
+
+			
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
 		HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
@@ -65,24 +85,69 @@ void Worldspace::Game()
 		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
 		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
 		
+
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
 
 		xp.updateXp();
 
-		Menu.MainMenuUI();
-		Menu.GameUI();
-			
-	}
+		if (mouse.leftButtonDown)
+		{
+			SpawnWave(20, 70);
+			bool canSpawn = true;
+			for (auto & tile : Maptest.GetPath())
+			{
+				if (mouse.x +90 < tile.x ||  mouse.x > tile.x + 90 
+					|| mouse.y +90 < tile.y - scrollValue || mouse.y > tile.y - scrollValue + 90)
+				{}
+				else
+				{
+					canSpawn = false;
+				}
+			}
+			if (canSpawn)
+			{
+				TowerAI newTower = TowerAI();
+				newTower.spawn(scrollValue);
+				Towers.push_back(newTower);
+			}
+		}
 
-	
-	
+		if (mouse.rightButtonDown)
+		{
+			ResetFile();
+		}
+	}
 
 	if (!HAPI_Sprites.Update())
 	{
 		SaveFile();
+		std::cout << "test save" << endl;
 	}
 
 
+}
+
+void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
+{
+	bool allDead = true;
+	for (auto & enemy : Enemies)
+	{
+		if (enemy.isAlive())
+		{
+			allDead = false;
+			break;
+		}
+	}
+	
+	if (allDead)
+	{
+		Enemies.clear();
+		for (int i{ 0 }; i < numEnemies; i++)
+		{
+			Enemies.push_back(EnemyAI());
+			Enemies[Enemies.size() - 1].spawn(&xp, -(i*distanceBetweenEnemies));
+		}
+	}
 }
 
 void Worldspace::Initialise()
@@ -90,16 +155,12 @@ void Worldspace::Initialise()
 // Loading data before game starts
 	ConfigLoad();
 	LoadFile();
-	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined", eHSEnableUI))
+	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined"))
 	{
 		return;
 	}
+	
 	Game();
-}
-
-HAPISPACE::VectorI Worldspace::GetScreenSize()
-{
-	return HAPISPACE::VectorI(m_width, m_height);
 }
 
 void Worldspace::ConfigLoad()
@@ -180,6 +241,7 @@ void Worldspace::LoadFile()
 		{
 			m_difficulty = input;
 		}
+		std::cout << input << endl;
 	}
 	Load.close();
 }

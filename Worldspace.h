@@ -1,37 +1,40 @@
 #pragma once
-
-
-#include "Map.h"
 #include "XP.h"
-#include "UserInterface.h"
-
-
+#include "Map.h"
+#include "EnemyAI.h"
+#include "TowerAI.h"
+#include "Projectiles.h"
 class Worldspace //: IHapiSpritesInputListener
+
+
 { 
 public:
 	Worldspace();
 	~Worldspace();
 	void Initialise();
-	HAPISPACE::VectorI GetScreenSize();
-	void ResetFile();
+
+	const std::vector<EnemyAI> GetEnemies() { return Enemies; };
+
+	
+
 	
 
 private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
+	int scrollValue{ 0 };
 
+	std::vector<EnemyAI> Enemies;
+	std::vector<Projectiles> m_Projectiles;
 	
-	//UserInterface *Menu{ nullptr };
 	class XP xp;
-
 	void Game();
-	
+	void SpawnWave(int numEnemies, int distanceBetweenEnemies);
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
-	
-
+	void ResetFile();
 
 /*
 	// Called when HAPI Sprites detects a key event (repeatadly for key down, once for key up)
