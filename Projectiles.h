@@ -14,7 +14,7 @@ public:
 	void shoot(int &Offest, std::vector<EnemyAI> Enemies);
 private:
 	VectorF m_Projectile_Position;
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Turret.png");
+	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Projectiles\\Paintball");
 	bool m_Spawned{ false };
 	bool m_Rendered{ false };
 	int m_speed{ 10 };

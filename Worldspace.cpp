@@ -23,35 +23,24 @@ Worldspace::~Worldspace()
 
 
 void Worldspace::Game()
-{	
+{
 	UserInterface Menu;
 	Menu.MainMenuUI();
 	Menu.GameUI();
-			
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
-	int scrollValue = 0;
 
-	if (!sprite)
-	{
-		HAPI_Sprites.UserMessage("Error, WILL NOT Load Mate... Just Terminate.", "ERROR");
-		return;
-	}
-	
-	int test = 0;
 	xp.difficulty(1);
 	while (HAPI_Sprites.Update())
 	{
-		
+
 		SCREEN_SURFACE->Clear();
-		
-		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
+	
+
+	//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
 
 		const HAPISPACE::HAPI_TMouseData &mousedata = HAPI_Sprites.GetMouseData();
 		scrollValue -= mousedata.wheelMovement / 3;
 
 		Menu.Map_Pointer->RenderMap(scrollValue);
-
-		//sprite->Render(SCREEN_SURFACE);
 
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
@@ -60,19 +49,18 @@ void Worldspace::Game()
 		//test render for xp
 		HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::RED, "XP: ", 40);
 		HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::RED, std::to_string(xp.getXp()), 40);
-		
+
 		//test render for currency
 		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
 		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
-		
+
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
 
 		xp.updateXp();
 
 		Menu.MainMenuUI();
 		Menu.GameUI();
-			
-	}
+}
 
 	
 	

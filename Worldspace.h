@@ -20,7 +20,7 @@ private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
 	int m_difficulty{ 1 };
-
+	int scrollValue = 0;
 	
 	//UserInterface *Menu{ nullptr };
 	class XP xp;
