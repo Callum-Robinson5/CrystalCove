@@ -1,7 +1,10 @@
 #pragma once
 #include <HAPISprites_Lib.h>
 #include "EnemyAI.h"
+#include "Projectiles.h"
 using namespace HAPISPACE;
+class Projectiles;
+
 class TowerAI
 {
 public:
@@ -10,11 +13,13 @@ public:
 public:
 	void spawn(int &yOffset);
 	void render(int &yOffset);
-	void getTowerPosition(VectorF);
-	void towerLOS(std::vector<EnemyAI> Enemies);
+	const VectorF getTowerPosition() { return m_Tower_Position; };
+	void towerLOS(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles);
+
 private:
 	VectorF m_Tower_Position;
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png");
+	int fireRate{ 10 };
+	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\PaintTower.png");
 	bool m_Spawned{ false };
 };
 
