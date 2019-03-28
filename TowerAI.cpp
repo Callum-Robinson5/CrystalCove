@@ -1,6 +1,7 @@
 #include "TowerAI.h"
 #include "EnemyAI.h"
 #include "Projectiles.h"
+#include <math.h>
 #include <HAPISprites_Lib.h>
 using namespace HAPISPACE;
 
@@ -26,7 +27,7 @@ void TowerAI::spawn(int &yOffset)
 	float x = mouseData.x;
 	float y = mouseData.y;
 	m_Tower_Position = { (float)mouseData.x, (float)mouseData.y + yOffset};
-	sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
+	sprite->GetTransformComp().SetOrigin(VectorF(50, 50));
 	sprite->GetTransformComp().SetRotation(0.0f);
 	m_Spawned = true;
 
@@ -41,26 +42,32 @@ void TowerAI::render(int &yOffset)
 	}
 }
 
-void TowerAI::getTowerPosition(VectorF)
-{
-	//return m_Tower_Position;
-}
-
-
-void TowerAI::towerLOS(std::vector<EnemyAI> Enemies) //creates projectile, need to change so there ant crazy ammount of projectiles
+void TowerAI::towerLOS(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles) //creates projectile, need to change so there ant crazy ammount of projectiles
 {
 	int scrollValue = 0;
 	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
 	scrollValue -= mouseData.wheelMovement / 3;
 	for (auto & enemy : Enemies)
 	{
-		if (m_Tower_Position.DistanceBetween(enemy.getPosition()) <= 200)
+		if (fireRate <= 0)
 		{
-			Projectiles testProjectiles;
-
-			testProjectiles.spawn(scrollValue, m_Tower_Position);
-			testProjectiles.render(scrollValue);
-			//shoot projectile
+			if (enemy.isAlive())
+			{
+				if (m_Tower_Position.DistanceBetween(enemy.getPosition()) <= 200)
+				{
+					Projectiles newProjectile;
+					newProjectile.spawn(scrollValue, enemy, m_Tower_Position);
+					projectiles.push_back(newProjectile);
+					//testProjectiles.shoot(scrollValue, Enemies, m_Tower_Position);
+					fireRate = 100;
+					VectorF direction = enemy.getPosition() - m_Tower_Position;
+					direction = direction.Normalized();
+					float radians = atan2(direction.y, direction.x);
+					sprite->GetTransformComp().SetRotation(radians);
+					break;
+				}
+			}
 		}
 	}
+	fireRate--;
 }

@@ -68,29 +68,26 @@ void EnemyAI::move(const std::vector<HAPISPACE::VectorF> &path)
 
 bool EnemyAI::isAlive()
 {
-	if (enemy_health <= 0 || !m_Alive)
-	{
-		if (!m_Died)
-			die();
-		return false;
-	}
-	return true;
+	return m_Alive;
 }
 
 void EnemyAI::die()
 {
-	if (enemy_health <= 0)
+	if (!m_Died)
 	{
-		m_Xp->addXp(5);
-		m_Xp->addCurrency(2);
+		if (enemy_health <= 0)
+		{
+			m_Xp->addXp(5);
+			m_Xp->addCurrency(2);
+		}
+		else
+		{
+			m_Xp->addXp(2);
+			m_Xp->addCurrency(1);
+		}
+		m_Alive = false;
+		m_Died = true;
 	}
-	else
-	{
-		m_Xp->addXp(2);
-		m_Xp->addCurrency(1);
-	}
-	m_Alive = false;
-	m_Died = true;
 	//include smoke puff animation
 }
 
