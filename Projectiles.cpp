@@ -1,6 +1,5 @@
 #include "Projectiles.h"
 #include <HAPISprites_Lib.h>
-#include "TowerAI.h"
 using namespace HAPISPACE;
 
 
@@ -14,9 +13,8 @@ Projectiles::~Projectiles()
 {
 }
 
-void Projectiles::spawn(int &yOffset, VectorF TowerPosition)
+void Projectiles::spawn(int &yOffset, EnemyAI& Enemy, VectorF TowerPosition)
 {
-	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
 
 	if (!sprite)
 	{
@@ -24,9 +22,8 @@ void Projectiles::spawn(int &yOffset, VectorF TowerPosition)
 		return;
 	}
 
-	float x = mouseData.x;
-	float y = mouseData.y;
 	m_Projectile_Position = { TowerPosition.x, TowerPosition.y + yOffset };
+	m_Projectile_Direction = VectorF(Enemy.getPosition() - TowerPosition).Normalized();
 	sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
 	sprite->GetTransformComp().SetRotation(0.0f);
 	m_Spawned = true;
@@ -35,24 +32,54 @@ void Projectiles::spawn(int &yOffset, VectorF TowerPosition)
 
 void Projectiles::render(int &yOffset)
 {
+	
+		if (m_Spawned)
+		{
+			sprite->GetTransformComp().SetPosition(VectorF(m_Projectile_Position.x, m_Projectile_Position.y - yOffset));// += 10 * m_speed);
+			sprite->Render(SCREEN_SURFACE);
 
-	if (m_Spawned)
-	{
-		sprite->GetTransformComp().SetPosition(VectorF(m_Projectile_Position.x, m_Projectile_Position.y - yOffset)); //needs to start at towers position so change this later
-		sprite->Render(SCREEN_SURFACE);
-		m_Rendered = true;
-	}
+		}
 }
 
-void Projectiles::shoot(int &Offest, std::vector<EnemyAI> Enemies)
+
+void Projectiles::move()
 {
-	if (m_Rendered)
+		m_Projectile_Position += m_Projectile_Direction * m_speed;
+		sprite->GetTransformComp().SetPosition(m_Projectile_Position);
+}
+
+void Projectiles::Collision(std::vector<EnemyAI> & enemies, int & yOffset)
+{
+	for (auto &enemy : enemies)
 	{
-		
+		if (enemy.isAlive() && m_Spawned)
+		{
+			enemy.getSprite()->GetTransformComp().SetPosition({ enemy.getSprite()->GetTransformComp().GetPosition().x, enemy.getSprite()->GetTransformComp().GetPosition().y + yOffset });
+			if (sprite->CheckCollision(*(enemy.getSprite())))
+			{
+				enemy.takeDamage(20);
+				if (enemy.getHealth() <= 0)
+					enemy.die();
+				m_Spawned = false;
+				enemy.getSprite()->GetTransformComp().SetPosition({ enemy.getSprite()->GetTransformComp().GetPosition().x, enemy.getSprite()->GetTransformComp().GetPosition().y - yOffset });
+				break;
+			}
+			enemy.getSprite()->GetTransformComp().SetPosition({ enemy.getSprite()->GetTransformComp().GetPosition().x, enemy.getSprite()->GetTransformComp().GetPosition().y - yOffset });
+		}
 	}
 }
 
-/*todo: make projectiles shoot towards enemy
+void Projectiles::Update(std::vector<EnemyAI> & enemies, int & yOffset)
+{
+	move();
+	Collision(enemies, yOffset);
+	render(yOffset);
+
+}
+
+
+
+/*
 projectiles deal damage
 projetiles stop and die when hitting enemy
 */
