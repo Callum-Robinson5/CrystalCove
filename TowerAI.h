@@ -14,7 +14,7 @@ public:
 	void towerLOS(std::vector<EnemyAI> Enemies);
 private:
 	VectorF m_Tower_Position;
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png");
+	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Towers\\Paintadier");
 	bool m_Spawned{ false };
 };
 

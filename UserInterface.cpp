@@ -19,12 +19,10 @@ UserInterface::~UserInterface()
 }
 
 
-
-
 void UserInterface::MainMenuUI()
 {
 	
-	if (loadMenu == true)
+	if (loadMenu == true && test1 == true)
 	{
 		UI.MainWindow()->AddButton("Start", "Start", EButtonType::eRadio);
 		HAPISPACE::VectorI ButtonPos(world->GetScreenSize() / 2);
@@ -35,13 +33,14 @@ void UserInterface::MainMenuUI()
 
 		UI.MainWindow()->AddButton("Exit", "Exit", EButtonType::eRadio);
 		UI.MainWindow()->PositionRelativeTo("Exit", "Options", EDirection::eSouth);
-
+		test1 = false;
 	}
-	else
+	else if(loadMenu == false)
 	{
 		UI.MainWindow()->DeleteObject("Start");
 		UI.MainWindow()->DeleteObject("Options");
 		UI.MainWindow()->DeleteObject("Exit");
+		test1 = true;
 	}
 
 }
@@ -49,53 +48,58 @@ void UserInterface::MainMenuUI()
 void UserInterface::GameUI()
 {
 
-	if (loadgameUi == true)
+	if (loadgameUi == true && test == true)
 	{
-		
-		UI.MainWindow()->AddButton("Tower1", "Tower1", EButtonType::eRadio);
-		//UI.MainWindow()->PositionObjectAgainstWindowEdge("Tower 1", EDirection::eNorthEast);
-		HAPISPACE::VectorI Test(world->GetScreenSize().x -100, 100);
+
+		HAPISPACE::VectorI Test(world->GetScreenSize().x - 100, 100);
 		UI.MainWindow()->SetScreenPosition(Test);
 
-		UI.MainWindow()->AddButton("Tower2", "Tower2", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower2", "Tower1", EDirection::eSouth);
+		UI.MainWindow()->AddButtons({
+			{"Button 4", "550"},
+			{"Button 2", "250"},
+			{"Button 3", "400"},
+			{"Button 1", "100" },
+			}, "Text", EDirection::eSouth, 1, EAlignment::eAlignMidToMid);
 
-		UI.MainWindow()->AddButton("Tower3", "Tower3", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower3", "Tower2", EDirection::eSouth);
+		std::shared_ptr<ImageFill> PaintS = std::make_shared<ImageFill>("Data\\Towers\\Paint Slinger.png", EImageFillMode::eScale);
+		std::shared_ptr<ImageFill> PaintT = std::make_shared<ImageFill>("Data\\Towers\\Paint Thrower.png", EImageFillMode::eScale);
+		std::shared_ptr<ImageFill> PaintAd = std::make_shared<ImageFill>("Data\\Towers\\Paintadier.png", EImageFillMode::eScale);
+		std::shared_ptr<ImageFill> PaintTil = std::make_shared<ImageFill>("Data\\Towers\\Painttillary.png", EImageFillMode::eScale);
 
-		UI.MainWindow()->AddButton("Tower4", "Tower4", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower4", "Tower3", EDirection::eSouth);
+		UI.MainWindow()->GetSkin().AddShaderToPalette("Paint Slinger", PaintS);
+		UI.MainWindow()->GetSkin().AddShaderToPalette("Paint Thrower", PaintT);
+		UI.MainWindow()->GetSkin().AddShaderToPalette("Paintadier", PaintAd);
+		UI.MainWindow()->GetSkin().AddShaderToPalette("Painttillary", PaintTil);
 
-		UI.MainWindow()->AddButton("Tower5", "Tower5", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower5", "Tower4", EDirection::eSouth);
+		UiWindowStyleGroup UIstyle = UI.MainWindow()->GetSkin().GetWindowStyleGroup(ESkinStyle::eButton);
 
-		UI.MainWindow()->AddButton("Tower6", "Tower6", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower6", "Tower5", EDirection::eSouth);
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paint Slinger");
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paint Thrower");
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paintadier");
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Painttillary");
 
-		UI.MainWindow()->AddButton("Tower7", "Tower7", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower7", "Tower6", EDirection::eSouth);
+		UI.MainWindow()->GetObject("Button 1")->SetWindowStyleGroupSettings(UIstyle);				
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paint Slinger");
 
-		UI.MainWindow()->AddButton("Tower8", "Tower8", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower8", "Tower7", EDirection::eSouth);
+		UI.MainWindow()->GetObject("Button 2")->SetWindowStyleGroupSettings(UIstyle);
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paint Thrower");
 
-		UI.MainWindow()->AddButton("Tower9", "Tower9", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower9", "Tower8", EDirection::eSouth);
+		UI.MainWindow()->GetObject("Button 3")->SetWindowStyleGroupSettings(UIstyle);
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paintadier");
 
-		UI.MainWindow()->AddButton("Tower10", "Tower10", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Tower10", "Tower9", EDirection::eSouth);
-	}
-	else
+		UI.MainWindow()->GetObject("Button 4")->SetWindowStyleGroupSettings(UIstyle);
+		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Painttillary");
+
+
+		test = false;
+	} 
+	else if(loadgameUi == false)
 	{
 		UI.MainWindow()->DeleteObject("Tower1");
 		UI.MainWindow()->DeleteObject("Tower2");
 		UI.MainWindow()->DeleteObject("Tower3");
 		UI.MainWindow()->DeleteObject("Tower4");
-		UI.MainWindow()->DeleteObject("Tower5");
-		UI.MainWindow()->DeleteObject("Tower6");
-		UI.MainWindow()->DeleteObject("Tower7");
-		UI.MainWindow()->DeleteObject("Tower8");
-		UI.MainWindow()->DeleteObject("Tower9");
-		UI.MainWindow()->DeleteObject("Tower10");
+		test = true;
 	}
 
 }
@@ -104,10 +108,9 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 {
 	//Main Menu
 	
-	if (buttonName == "Start")
+	if (buttonName == "Start")//runs the game code from worldspace
 	{
 		std::cout << "Starting Game" << std::endl;
-		// run the game code from worldspace
 		Map_Pointer->GeneratePath(1);
 		loadMenu = false;
 		loadgameUi = true;
@@ -128,11 +131,11 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 
 	}
 
-	if (buttonName == "Exit")
+	if (buttonName == "Exit")//exits HAPI
 	{
 		std::cout << "Exiting Game" << std::endl;
 		loadMenu = false;
-		HAPI_Sprites.Close(); //exits HAPI
+		HAPI_Sprites.Close(); 
 	}
 
 	//In game UI

@@ -242,8 +242,8 @@ void Map::RenderMap(int &yOffset)
 		yOffset = 0;
 	else if (yOffset > 40 * (m_Height - 20))
 		yOffset = 40 * (m_Height - 20);
-	std::shared_ptr<HAPISPACE::Sprite> green = HAPI_Sprites.MakeSprite("Data\\Grass.png");
-	std::shared_ptr<HAPISPACE::Sprite> pink = HAPI_Sprites.MakeSprite("Data\\Sand.png");
+	std::shared_ptr<HAPISPACE::Sprite> green = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Grass1.png");
+	std::shared_ptr<HAPISPACE::Sprite> pink = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Sand1.png");
 	bool* pointer = m_MapData;
 	for (int i{ 0 }; i < m_Height; i++)
 	{

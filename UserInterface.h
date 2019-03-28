@@ -22,7 +22,8 @@ public:
 	Worldspace *world{ nullptr }; //declared pointer towards the worldspace class
 	bool loadMenu = true;
 	bool loadgameUi = false;
-	
+	bool test = true;
+	bool test1 = true;
 
 private:
 	
