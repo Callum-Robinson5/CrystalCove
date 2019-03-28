@@ -46,6 +46,10 @@ void Projectiles::move()
 {
 		m_Projectile_Position += m_Projectile_Direction * m_speed;
 		sprite->GetTransformComp().SetPosition(m_Projectile_Position);
+		if (m_Projectile_Position.x < -10 || m_Projectile_Position.x > 1280 || m_Projectile_Position.y < -10 || m_Projectile_Position.y > 3000)
+		{
+			m_Spawned = false;
+		}
 }
 
 void Projectiles::Collision(std::vector<EnemyAI> & enemies, int & yOffset)
@@ -57,7 +61,7 @@ void Projectiles::Collision(std::vector<EnemyAI> & enemies, int & yOffset)
 			enemy.getSprite()->GetTransformComp().SetPosition({ enemy.getSprite()->GetTransformComp().GetPosition().x, enemy.getSprite()->GetTransformComp().GetPosition().y + yOffset });
 			if (sprite->CheckCollision(*(enemy.getSprite())))
 			{
-				enemy.takeDamage(20);
+				enemy.takeDamage(5);
 				if (enemy.getHealth() <= 0)
 					enemy.die();
 				m_Spawned = false;
@@ -71,9 +75,12 @@ void Projectiles::Collision(std::vector<EnemyAI> & enemies, int & yOffset)
 
 void Projectiles::Update(std::vector<EnemyAI> & enemies, int & yOffset)
 {
-	move();
-	Collision(enemies, yOffset);
-	render(yOffset);
+	if (isSpawned())
+	{
+		move();
+		Collision(enemies, yOffset);
+		render(yOffset);
+	}
 
 }
 
