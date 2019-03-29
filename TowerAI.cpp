@@ -55,15 +55,18 @@ void TowerAI::towerLOS(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& p
 			{
 				if (m_Tower_Position.DistanceBetween(enemy.getPosition()) <= 200)
 				{
-					Projectiles newProjectile;
-					newProjectile.spawn(scrollValue, enemy, m_Tower_Position);
-					projectiles.push_back(newProjectile);
-					//testProjectiles.shoot(scrollValue, Enemies, m_Tower_Position);
 					fireRate = 100;
 					VectorF direction = enemy.getPosition() - m_Tower_Position;
 					direction = direction.Normalized();
 					float radians = atan2(direction.y, direction.x);
-					sprite->GetTransformComp().SetRotation(radians);
+					sprite->GetTransformComp().SetRotation(radians + M_PI/2);
+
+					for (auto &projectile : projectiles)
+					{
+						if (!projectile.isSpawned())
+							projectile.spawn(scrollValue, enemy, m_Tower_Position);
+						break;
+					}
 					break;
 				}
 			}

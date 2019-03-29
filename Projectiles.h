@@ -18,7 +18,7 @@ public:
 private:
 	VectorF m_Projectile_Position;
 	VectorF m_Projectile_Direction;
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Projectiles\\Paintball");
+	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Paintball.png");
 	bool m_Spawned{ false };
 	int m_speed{ 5 };
 };
