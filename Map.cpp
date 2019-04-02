@@ -1,7 +1,5 @@
 #include "Map.h"
 
-
-
 Map::Map()
 {
 	memset(m_MapData, 0, m_Width * m_Height);
@@ -52,6 +50,7 @@ bool Map::GeneratePath(int Difficulty)
 				//Switch case to randomly select the direction for the path to go
 				switch (rand() % 4)
 				{
+
 					//cases 0-2 make the path to go right
 				case 0:
 
@@ -114,7 +113,6 @@ bool Map::GeneratePath(int Difficulty)
 		while (position < m_Width * m_Height - m_Width)
 		{
 			//Creating a value to be changed once a valid direction for the path to move has been selected
-
 			bool Continue{ false };
 			while (!Continue)
 			{
@@ -177,7 +175,6 @@ bool Map::GeneratePath(int Difficulty)
 		while (position < m_Width * m_Height - m_Width)
 		{
 			//Creating a value to be changed once a valid direction for the path to move has been selected
-
 			bool Continue{ false };
 			while (!Continue)
 			{
@@ -211,7 +208,7 @@ bool Map::GeneratePath(int Difficulty)
 				case 4:
 
 				case 5:
-
+            
 				case 6:
 					pointer += Down;
 					position += Down;
@@ -219,7 +216,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorF(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -231,7 +228,7 @@ bool Map::GeneratePath(int Difficulty)
 					break;
 				}
 			}
-			m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+			m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 		}
 
 	}
@@ -272,4 +269,3 @@ void Map::RenderMap(int &yOffset)
 
 void Map::SelectTile(const int & mouseX, const int & mouseY, const int & yOffset)
 {
-}

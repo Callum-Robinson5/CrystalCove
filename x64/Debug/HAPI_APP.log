@@ -1,25 +1,5 @@
-﻿  EnemyAI.cpp
-c:\users\t7056216\source\hapisprites_path - copy - copy\hapi_app\enemyai.cpp(51): warning C4244: '-=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\t7056216\source\hapisprites_path - copy - copy\hapi_app\enemyai.cpp(55): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\t7056216\source\hapisprites_path - copy - copy\hapi_app\enemyai.cpp(59): warning C4244: '-=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\t7056216\source\hapisprites_path - copy - copy\hapi_app\enemyai.cpp(63): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
+﻿  UserInterface.cpp
   Worldspace.cpp
   main.cpp
   Generating Code...
-  HAPI_APP.vcxproj -> C:\Users\t7056216\Source\HAPISprites_Path - Copy - Copy\x64\Debug\HAPI_APP.exe
+  HAPI_APP.vcxproj -> C:\Users\t7091066\Source\CrystalCove-master 28_03_19\x64\Debug\HAPI_APP.exe
