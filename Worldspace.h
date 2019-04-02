@@ -2,6 +2,8 @@
 #include "XP.h"
 #include "Map.h"
 #include "EnemyAI.h"
+#include "TowerAI.h"
+#include "Projectiles.h"
 class Worldspace //: IHapiSpritesInputListener
 
 
@@ -10,9 +12,12 @@ public:
 	Worldspace();
 	~Worldspace();
 	void Initialise();
+	const VectorI GetScreenSize() { return m_ScreenSize; };
 
-	const std::vector<EnemyAI> GetEnemies() { return Enemies; };
+	std::vector<EnemyAI> GetEnemies() { return Enemies; };
 
+
+	void ResetFile();
 	
 
 	
@@ -20,18 +25,21 @@ public:
 private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
+	VectorI m_ScreenSize{ 1280,800 };
 	int m_difficulty{ 1 };
 	int scrollValue{ 0 };
 
 	std::vector<EnemyAI> Enemies;
+	std::vector<TowerAI> m_Towers;
+	std::vector<Projectiles> m_Projectiles;
 	
 	class XP xp;
 	void Game();
 	void SpawnWave(int numEnemies, int distanceBetweenEnemies);
+	void PlaceTower(VectorF position, Map & map, std::vector<TowerAI> & towers);
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
-	void ResetFile();
 
 /*
 	// Called when HAPI Sprites detects a key event (repeatadly for key down, once for key up)

@@ -23,15 +23,17 @@ Worldspace::~Worldspace()
 
 void Worldspace::Game()
 {
-
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
 	Map Maptest;
 	Maptest.GeneratePath(m_difficulty);
 
-	if (!sprite)
+	for (int i{ 0 }; i < 50; i++)
 	{
-		HAPI_Sprites.UserMessage("Error, WILL NOT Load Mate... Just Terminate.", "ERROR");
-		return;
+		m_Towers.push_back(TowerAI());
+	}
+
+	for (int i{ 0 }; i < 100; i++)
+	{
+		m_Projectiles.push_back(Projectiles());
 	}
 	
 	float i = 50.0f;
@@ -43,21 +45,33 @@ void Worldspace::Game()
 		
 		SCREEN_SURFACE->Clear();
 
-		sprite->GetTransformComp().SetPosition({ 200,200 });
-		sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
-		sprite->GetTransformComp().SetRotation(i);
-
 
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
 		const HAPISPACE::HAPI_TMouseData &mouseData = HAPI_Sprites.GetMouseData();
 		scrollValue -= mouseData.wheelMovement/3;
 		//sprite->Render(SCREEN_SURFACE);
 		Maptest.RenderMap(scrollValue);
+
 		for (auto & enemy : Enemies)
 		{
 			enemy.update(scrollValue, Maptest.GetPath());
 		}
 
+		for (auto & projectile : m_Projectiles)
+		{
+			if (projectile.isSpawned())
+			{
+				projectile.Update(Enemies, scrollValue);
+			}
+		}
+
+		for (auto & tower : m_Towers)
+		{
+			tower.render(scrollValue);
+			tower.towerLOS(Enemies, m_Projectiles);
+		}
+
+			
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
 		HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
@@ -78,6 +92,8 @@ void Worldspace::Game()
 		if (mouse.leftButtonDown)
 		{
 			SpawnWave(20, 70);
+			PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+			
 		}
 
 		if (mouse.rightButtonDown)
@@ -114,6 +130,52 @@ void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
 		{
 			Enemies.push_back(EnemyAI());
 			Enemies[Enemies.size() - 1].spawn(&xp, -(i*distanceBetweenEnemies));
+		}
+	}
+}
+
+void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & towers)
+{
+	if (xp.getCurrency() >= 100)
+	{
+		bool canSpawn = true;
+		for (auto & tile : map.GetPath())
+		{
+			if (position.x + 40 < tile.x || position.x > tile.x + 140
+				|| position.y + 40 < tile.y - scrollValue || position.y > tile.y - scrollValue + 140)
+			{
+			}
+			else
+			{
+				canSpawn = false;
+			}
+		}
+		for (auto & tower : towers)
+		{
+			if (position.x + 80 < tower.getTowerPosition().x || position.x > tower.getTowerPosition().x + 80
+				|| position.y + 80 < tower.getTowerPosition().y - scrollValue || position.y > tower.getTowerPosition().y - scrollValue + 80)
+			{
+			}
+			else
+			{
+				canSpawn = false;
+			}
+		}
+		if (position.x < 40 || position.x > 951)
+		{
+			canSpawn = false;
+		}
+		if (canSpawn)
+		{
+			for (auto & tower : m_Towers)
+			{
+				if (!tower.isSpawned())
+				{
+					tower.spawn(scrollValue);
+					xp.addCurrency(-100);
+					break;
+				}
+			}
 		}
 	}
 }

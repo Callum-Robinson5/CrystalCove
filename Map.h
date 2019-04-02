@@ -14,8 +14,10 @@ public:
 
 private:
 	const int m_Width{ 10 };
-	const int m_Height{ 50 };
+	const int m_Height{ 30 };
 	bool m_MapData[3200];
 	std::vector<HAPISPACE::VectorF> m_Path;
+	std::shared_ptr<HAPISPACE::Sprite> grass = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Grass1.png");
+	std::shared_ptr<HAPISPACE::Sprite> path = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Sand1.png");
 };
 
