@@ -9,13 +9,15 @@ public:
 
 	bool GeneratePath(int Difficulty = 70);
 	void RenderMap(int &yOffset);
-	const std::vector<HAPISPACE::VectorI>& GetPath() { return m_Path; };
+	const std::vector<HAPISPACE::VectorF>& GetPath() { return m_Path; };
 	void SelectTile(const int & mouseX, const int & mouseY, const int &yOffset);
 
 private:
-	const int m_Width{ 32 };
-	const int m_Height{ 100 };
+	const int m_Width{ 10 };
+	const int m_Height{ 30 };
 	bool m_MapData[3200];
-	std::vector<HAPISPACE::VectorI> m_Path;
+	std::vector<HAPISPACE::VectorF> m_Path;
+	std::shared_ptr<HAPISPACE::Sprite> grass = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Grass1.png");
+	std::shared_ptr<HAPISPACE::Sprite> path = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Sand1.png");
 };
 

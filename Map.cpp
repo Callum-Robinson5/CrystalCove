@@ -36,8 +36,9 @@ bool Map::GeneratePath(int Difficulty)
 	pointer += position;
 	*pointer = 1;
 
-
 	m_Path.clear();
+
+	m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 	if (Difficulty == 0)
 	{
 		while (position < m_Width * m_Height - m_Width)
@@ -49,10 +50,11 @@ bool Map::GeneratePath(int Difficulty)
 				//Switch case to randomly select the direction for the path to go
 				switch (rand() % 4)
 				{
-				//cases 0-2 make the path to go right
+
+					//cases 0-2 make the path to go right
 				case 0:
 
-					if (lastDirection != 'r') 
+					if (lastDirection != 'r')
 					{
 						while ((position % m_Width) > 1)
 						{
@@ -60,7 +62,7 @@ bool Map::GeneratePath(int Difficulty)
 							position += Left;
 							lastDirection = 'l';
 							*pointer = 1;
-							m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+							m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 							Continue = true;
 						}
 					}
@@ -76,7 +78,7 @@ bool Map::GeneratePath(int Difficulty)
 							position += Right;
 							lastDirection = 'r';
 							*pointer = 1;
-							m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+							m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 							Continue = true;
 						}
 					}
@@ -91,7 +93,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -105,13 +107,12 @@ bool Map::GeneratePath(int Difficulty)
 			}
 		}
 	}
-	else if(Difficulty == 1)
+	else if (Difficulty == 1)
 	{
-	//Continues randomly generating path until it has reached the bottom of the screen
+		//Continues randomly generating path until it has reached the bottom of the screen
 		while (position < m_Width * m_Height - m_Width)
 		{
-		//Creating a value to be changed once a valid direction for the path to move has been selected
-		
+			//Creating a value to be changed once a valid direction for the path to move has been selected
 			bool Continue{ false };
 			while (!Continue)
 			{
@@ -154,7 +155,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -166,15 +167,14 @@ bool Map::GeneratePath(int Difficulty)
 					break;
 				}
 			}
-			m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+			m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 		}
 	}
 	else
 	{
 		while (position < m_Width * m_Height - m_Width)
 		{
-		//Creating a value to be changed once a valid direction for the path to move has been selected
-		
+			//Creating a value to be changed once a valid direction for the path to move has been selected
 			bool Continue{ false };
 			while (!Continue)
 			{
@@ -208,7 +208,7 @@ bool Map::GeneratePath(int Difficulty)
 				case 4:
 
 				case 5:
-					
+            
 				case 6:
 					pointer += Down;
 					position += Down;
@@ -216,7 +216,7 @@ bool Map::GeneratePath(int Difficulty)
 					*pointer = 1;
 					if (position < m_Width* m_Height - m_Width)
 					{
-						m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+						m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 						pointer += Down;
 						position += Down;
 						*pointer = 1;
@@ -228,7 +228,7 @@ bool Map::GeneratePath(int Difficulty)
 					break;
 				}
 			}
-			m_Path.push_back(HAPISPACE::VectorI(position % m_Width, (position - (position % m_Width)) / m_Width));
+			m_Path.push_back(HAPISPACE::VectorF((position % m_Width) * 100, ((position - (position % m_Width)) / m_Width) * 100));
 		}
 
 	}
@@ -240,10 +240,10 @@ void Map::RenderMap(int &yOffset)
 {
 	if (yOffset < 0)
 		yOffset = 0;
-	else if (yOffset > 40 * (m_Height - 20))
-		yOffset = 40 * (m_Height - 20);
-	std::shared_ptr<HAPISPACE::Sprite> green = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Grass1.png");
-	std::shared_ptr<HAPISPACE::Sprite> pink = HAPI_Sprites.MakeSprite("Data\\Tilemaps\\Sand1.png");
+	else if (yOffset > 100 * (m_Height - 8))
+		yOffset = 100 * (m_Height - 8);
+	//grass->GetTransformComp().SetScaling({ 2.5,2.5 });
+	//path->GetTransformComp().SetScaling({ 2.5,2.5 });
 	bool* pointer = m_MapData;
 	for (int i{ 0 }; i < m_Height; i++)
 	{
@@ -251,15 +251,15 @@ void Map::RenderMap(int &yOffset)
 		{
 			if (*pointer == 0)
 			{
-				green->GetTransformComp().SetPosition({ (float)(j * 40), (float)((i * 40) - yOffset) });
-				green->Render(SCREEN_SURFACE);
+				grass->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
+				grass->Render(SCREEN_SURFACE);
 				//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::GREEN, std::to_string(*pointer), 20);
 				pointer++;
 			}
-			else if(*pointer == 1)
+			else if (*pointer == 1)
 			{
-				pink->GetTransformComp().SetPosition({ (float)(j * 40), (float)((i * 40) - yOffset) });
-				pink->Render(SCREEN_SURFACE);
+				path->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
+				path->Render(SCREEN_SURFACE);
 				//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
 				pointer++;
 			}
@@ -269,4 +269,3 @@ void Map::RenderMap(int &yOffset)
 
 void Map::SelectTile(const int & mouseX, const int & mouseY, const int & yOffset)
 {
-}

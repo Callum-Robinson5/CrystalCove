@@ -12,9 +12,12 @@ public:
 	Worldspace();
 	~Worldspace();
 	void Initialise();
+	const VectorI GetScreenSize() { return m_ScreenSize; };
 
 	std::vector<EnemyAI> GetEnemies() { return Enemies; };
 
+
+	void ResetFile();
 	
 
 	
@@ -22,6 +25,7 @@ public:
 private:
 	int m_width{ 1280 };
 	int m_height{ 800 };
+	VectorI m_ScreenSize{ 1280,800 };
 	int m_difficulty{ 1 };
 	int scrollValue{ 0 };
 
@@ -36,7 +40,6 @@ private:
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();
-	void ResetFile();
 
 /*
 	// Called when HAPI Sprites detects a key event (repeatadly for key down, once for key up)

@@ -23,8 +23,6 @@ Worldspace::~Worldspace()
 
 void Worldspace::Game()
 {
-
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\tower.png", 1);
 	Map Maptest;
 	Maptest.GeneratePath(m_difficulty);
 
@@ -37,12 +35,6 @@ void Worldspace::Game()
 	{
 		m_Projectiles.push_back(Projectiles());
 	}
-
-	if (!sprite)
-	{
-		HAPI_Sprites.UserMessage("Error, WILL NOT Load Mate... Just Terminate.", "ERROR");
-		return;
-	}
 	
 	float i = 50.0f;
 	xp.difficulty(1);
@@ -52,10 +44,6 @@ void Worldspace::Game()
 		i += 5.0f;
 		
 		SCREEN_SURFACE->Clear();
-
-		sprite->GetTransformComp().SetPosition({ 200,200 });
-		sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
-		sprite->GetTransformComp().SetRotation(i);
 
 
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
@@ -74,10 +62,6 @@ void Worldspace::Game()
 			if (projectile.isSpawned())
 			{
 				projectile.Update(Enemies, scrollValue);
-			}
-			else
-			{
-				cout << "This should happen at some point" << endl;
 			}
 		}
 
@@ -177,7 +161,7 @@ void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & tower
 				canSpawn = false;
 			}
 		}
-		if (position.x < 40 || position.x > 751)
+		if (position.x < 40 || position.x > 951)
 		{
 			canSpawn = false;
 		}
