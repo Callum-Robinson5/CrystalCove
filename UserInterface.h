@@ -19,7 +19,7 @@ public:
 	void MainMenuUI();
 	void GameUI();
 	Map *Map_Pointer{ nullptr }; //declared pointer towards the Map class
-	Worldspace *world{ nullptr }; //declared pointer towards the worldspace class
+	Worldspace *World_Pointer{ nullptr }; //declared pointer towards the worldspace class
 	bool loadMenu = true;
 	bool loadgameUi = false;
 	bool test = true;

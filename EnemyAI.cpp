@@ -18,11 +18,14 @@ void EnemyAI::spawn(XP* xp, int yPos = 0)
 		HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
 		return;
 	}
+
+
+	sprite->GetTransformComp().SetOriginToCentreOfFrame();
 	
 	//sprite->SetAutoAnimate(20, true, "Right");
 	m_Checkpoint = 0;
 	m_Xp = xp;
-	m_Position = { 5 * 100,-100 };
+	m_Position = { 650,-100 };
 	m_Position.y += yPos;
 	m_Alive = true;
 	m_Died = false;

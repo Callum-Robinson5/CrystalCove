@@ -8,14 +8,14 @@ using namespace HAPISPACE;
 UserInterface::UserInterface()
 {
 	Map_Pointer = new Map;
-	world = new Worldspace;
+	World_Pointer = new Worldspace;
 	//UI_AddWindowToListenTo(UI.GetDefaultWindowName());
 }
 
 UserInterface::~UserInterface()
 {
 	delete Map_Pointer;
-	delete world;
+	delete World_Pointer;
 }
 
 
@@ -25,7 +25,7 @@ void UserInterface::MainMenuUI()
 	if (loadMenu == true && test1 == true)
 	{
 		UI.MainWindow()->AddButton("Start", "Start", EButtonType::eRadio);
-		HAPISPACE::VectorI ButtonPos(world->GetScreenSize() / 2);
+		HAPISPACE::VectorI ButtonPos(World_Pointer->GetScreenSize() / 2);
 		UI.MainWindow()->SetScreenPosition(ButtonPos);
 
 		UI.MainWindow()->AddButton("Options", "Options", EButtonType::eRadio);

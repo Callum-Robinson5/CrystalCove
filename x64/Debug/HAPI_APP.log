@@ -1,5 +1,14 @@
-﻿  UserInterface.cpp
+﻿  Projectiles.cpp
+  TowerAI.cpp
+c:\users\t7056216\source\hapisprites_fixes\hapi_app\towerai.cpp(27): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+c:\users\t7056216\source\hapisprites_fixes\hapi_app\towerai.cpp(28): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+  UserInterface.cpp
   Worldspace.cpp
+c:\users\t7056216\source\hapisprites_fixes\hapi_app\worldspace.cpp(101): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   main.cpp
   Generating Code...
-  HAPI_APP.vcxproj -> C:\Users\t7091066\Source\CrystalCove-master 28_03_19\x64\Debug\HAPI_APP.exe
+  HAPI_APP.vcxproj -> C:\Users\t7056216\Source\HAPISprites_Fixes\x64\Debug\HAPI_APP.exe
