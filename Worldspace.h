@@ -29,6 +29,10 @@ private:
 	int m_difficulty{ 1 };
 	int scrollValue{ 0 };
 
+	int maxEnemies{ 50 };
+	int maxTowers{ 50 };
+	int maxProjectiles{ 100 };
+
 	std::vector<EnemyAI> Enemies;
 	std::vector<TowerAI> m_Towers;
 	std::vector<Projectiles> m_Projectiles;

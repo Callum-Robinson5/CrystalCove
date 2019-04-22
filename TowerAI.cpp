@@ -42,35 +42,41 @@ void TowerAI::render(int &yOffset)
 	}
 }
 
-void TowerAI::towerLOS(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles) //creates projectile, need to change so there ant crazy ammount of projectiles
+void TowerAI::search(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles)
 {
-	int scrollValue = 0;
-	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
-	scrollValue -= mouseData.wheelMovement / 3;
 	for (auto & enemy : Enemies)
 	{
-		if (fireRate <= 0)
+		if (enemy.isAlive())
 		{
-			if (enemy.isAlive())
+			if (m_Tower_Position.DistanceBetween(enemy.getPosition()) <= m_Range)
 			{
-				if (m_Tower_Position.DistanceBetween(enemy.getPosition()) <= 200)
-				{
-					fireRate = 100;
-					VectorF direction = enemy.getPosition() - m_Tower_Position;
-					direction = direction.Normalized();
-					float radians = atan2(direction.y, direction.x);
-					sprite->GetTransformComp().SetRotation(radians + M_PI/2);
+				VectorF direction = enemy.getPosition() - m_Tower_Position;
+				direction = direction.Normalized();
+				float radians = atan2(direction.y, direction.x);
+				sprite->GetTransformComp().SetRotation(radians + M_PI / 2);
 
-					for (auto &projectile : projectiles)
-					{
-						if (!projectile.isSpawned())
-							projectile.spawn(scrollValue, enemy, m_Tower_Position);
-						break;
-					}
-					break;
+				if (coolDown <= 0)
+				{
+					fire(direction, projectiles);
+					coolDown = fireRate;
 				}
+				break;
 			}
 		}
 	}
-	fireRate--;
+	coolDown--;
 }
+
+void TowerAI::fire(VectorF direction, std::vector<Projectiles>& projectiles)
+{
+	for (auto &projectile: projectiles)
+	{
+		if (!projectile.isSpawned())
+		{
+			projectile.spawn(direction, m_Tower_Position);
+			break;
+		}
+	}
+}
+
+

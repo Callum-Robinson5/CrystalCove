@@ -23,7 +23,7 @@ public:
 
 private:
 	int m_Checkpoint = 0;
-	int m_speed{ 10 };
+	int m_speed{ 5 };
 	VectorF m_Position;
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Enemy/Golem.png");
 	int enemy_health{10};

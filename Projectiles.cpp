@@ -13,8 +13,11 @@ Projectiles::~Projectiles()
 {
 }
 
-void Projectiles::spawn(int &yOffset, EnemyAI& Enemy, VectorF TowerPosition)
+void Projectiles::spawn(VectorF direction, VectorF TowerPosition)
 {
+	int scrollValue = 0;
+	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
+	scrollValue -= mouseData.wheelMovement / 3;
 
 	if (!sprite)
 	{
@@ -22,8 +25,8 @@ void Projectiles::spawn(int &yOffset, EnemyAI& Enemy, VectorF TowerPosition)
 		return;
 	}
 
-	m_Projectile_Position = { TowerPosition.x, TowerPosition.y + yOffset };
-	m_Projectile_Direction = VectorF(Enemy.getPosition() - TowerPosition).Normalized();
+	m_Projectile_Position = { TowerPosition.x, TowerPosition.y + scrollValue };
+	m_Projectile_Direction = direction;
 	sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
 	sprite->GetTransformComp().SetRotation(0.0f);
 	m_Spawned = true;

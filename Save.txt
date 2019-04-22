@@ -1,4 +1,4 @@
 PlayerXp: 0
 Level: 1
-Currency: 45
+Currency: 6000
 Difficulty: 1

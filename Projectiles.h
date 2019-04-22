@@ -9,7 +9,7 @@ public:
 	Projectiles();
 	~Projectiles();
 public:
-	void spawn(int &yOffset, EnemyAI& Enemy, VectorF TowerPosition);
+	void spawn(VectorF direction, VectorF TowerPosition);
 	void render(int &yOffset);
 	void move();
 	void Collision(std::vector<EnemyAI> & enemys, int & yOffset);

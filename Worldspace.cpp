@@ -23,17 +23,23 @@ Worldspace::~Worldspace()
 
 void Worldspace::Game()
 {
+
 	Map Maptest;
 	Maptest.GeneratePath(m_difficulty);
 
-	for (int i{ 0 }; i < 50; i++)
+	for (int i{ 0 }; i < maxTowers; i++)
 	{
 		m_Towers.push_back(TowerAI());
 	}
 
-	for (int i{ 0 }; i < 100; i++)
+	for (int i{ 0 }; i < maxProjectiles; i++)
 	{
 		m_Projectiles.push_back(Projectiles());
+	}
+
+	for (int i{ 0 }; i < maxEnemies; i++)
+	{
+		Enemies.push_back(EnemyAI());
 	}
 	
 	float i = 50.0f;
@@ -68,7 +74,7 @@ void Worldspace::Game()
 		for (auto & tower : m_Towers)
 		{
 			tower.render(scrollValue);
-			tower.towerLOS(Enemies, m_Projectiles);
+			tower.search(Enemies, m_Projectiles);
 		}
 
 			
@@ -109,14 +115,15 @@ void Worldspace::Game()
 	}
 
 
+
 }
 
 void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
 {
 	bool allDead = true;
-	for (auto & enemy : Enemies)
+	for (int i{ 0 };i<maxEnemies; i++)
 	{
-		if (enemy.isAlive())
+		if (Enemies[i].isAlive())
 		{
 			allDead = false;
 			break;
@@ -125,11 +132,9 @@ void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
 	
 	if (allDead)
 	{
-		Enemies.clear();
 		for (int i{ 0 }; i < numEnemies; i++)
 		{
-			Enemies.push_back(EnemyAI());
-			Enemies[Enemies.size() - 1].spawn(&xp, -(i*distanceBetweenEnemies));
+			Enemies[i].spawn(&xp, -(i*distanceBetweenEnemies));
 		}
 	}
 }
@@ -141,8 +146,8 @@ void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & tower
 		bool canSpawn = true;
 		for (auto & tile : map.GetPath())
 		{
-			if (position.x + 40 < tile.x || position.x > tile.x + 140
-				|| position.y + 40 < tile.y - scrollValue || position.y > tile.y - scrollValue + 140)
+			if (position.x + 90 < tile.x || position.x > tile.x + 90
+				|| position.y + 90 < tile.y - scrollValue || position.y > tile.y - scrollValue + 90)
 			{
 			}
 			else
