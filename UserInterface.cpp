@@ -1,6 +1,10 @@
 #include "UserInterface.h"
 #include "Map.h"
 #include "Worldspace.h"
+#include "TowerAI.h"
+#include <chrono>
+#include <thread>
+
 
 using namespace HAPI_UI_SPACE;
 using namespace HAPISPACE;
@@ -9,6 +13,7 @@ UserInterface::UserInterface()
 {
 	Map_Pointer = new Map;
 	World_Pointer = new Worldspace;
+	//Tower_Pointer = new TowerAI;
 	//UI_AddWindowToListenTo(UI.GetDefaultWindowName());
 }
 
@@ -16,6 +21,7 @@ UserInterface::~UserInterface()
 {
 	delete Map_Pointer;
 	delete World_Pointer;
+	//delete Tower_Pointer;
 }
 
 
@@ -47,18 +53,18 @@ void UserInterface::MainMenuUI()
 
 void UserInterface::GameUI()
 {
-
+	/*
 	if (loadgameUi == true && test == true)
 	{
 
-		HAPISPACE::VectorI Test(World_Pointer->GetScreenSize().x - 100, 100);
-		UI.MainWindow()->SetScreenPosition(Test);
-
+		//HAPISPACE::VectorI Test(World_Pointer->GetScreenSize().x - 100, 100);
+		//UI.MainWindow()->SetScreenPosition(Test);
+		
 		UI.MainWindow()->AddButtons({
-			{"Button 4", "550"},
-			{"Button 2", "250"},
-			{"Button 3", "400"},
-			{"Button 1", "100" },
+			{"Tower4", "550"},
+			{"Tower2", "250"},
+			{"Tower3", "400"},
+			{"Tower1", "100" },
 			}, "Text", EDirection::eSouth, 1, EAlignment::eAlignMidToMid);
 
 		std::shared_ptr<ImageFill> PaintS = std::make_shared<ImageFill>("Data\\Towers\\Paint Slinger.png", EImageFillMode::eScale);
@@ -78,43 +84,104 @@ void UserInterface::GameUI()
 		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paintadier");
 		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Painttillary");
 
-		UI.MainWindow()->GetObject("Button 1")->SetWindowStyleGroupSettings(UIstyle);				
+		UI.MainWindow()->GetObject("Tower1")->SetWindowStyleGroupSettings(UIstyle);
 		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paint Slinger");
 
-		UI.MainWindow()->GetObject("Button 2")->SetWindowStyleGroupSettings(UIstyle);
+		UI.MainWindow()->GetObject("Tower2")->SetWindowStyleGroupSettings(UIstyle);
 		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paint Thrower");
 
-		UI.MainWindow()->GetObject("Button 3")->SetWindowStyleGroupSettings(UIstyle);
+		UI.MainWindow()->GetObject("Tower3")->SetWindowStyleGroupSettings(UIstyle);
 		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Paintadier");
 
-		UI.MainWindow()->GetObject("Button 4")->SetWindowStyleGroupSettings(UIstyle);
+		UI.MainWindow()->GetObject("Tower4")->SetWindowStyleGroupSettings(UIstyle);
 		UIstyle.SetBackgroundShader(ESkinSubStyle::eNormal, "Painttillary");
 
 
 		test = false;
-	} 
-	else if(loadgameUi == false)
-	{
-		UI.MainWindow()->DeleteObject("Tower1");
-		UI.MainWindow()->DeleteObject("Tower2");
-		UI.MainWindow()->DeleteObject("Tower3");
-		UI.MainWindow()->DeleteObject("Tower4");
-		test = true;
+		else if(loadgameUi == false)
+		{
+			UI.MainWindow()->DeleteObject("Tower1");
+			UI.MainWindow()->DeleteObject("Tower2");
+			UI.MainWindow()->DeleteObject("Tower3");
+			UI.MainWindow()->DeleteObject("Tower4");
+			test = true;
+		}
+		*/ 
+// inf xp // inf money
+
+		if (loadgameUi == true && test == true)
+		{
+			UI.MainWindow()->AddButton("Tower1", "Paint Slinger", EButtonType::eRadio);
+			HAPISPACE::VectorI ButtonPos(World_Pointer->GetScreenSize().x - 200, 100);
+			UI.MainWindow()->SetScreenPosition(ButtonPos);
+
+			UI.MainWindow()->AddButton("Tower2", "Paint Thrower", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("Tower2", "Tower1", EDirection::eSouth);
+
+			UI.MainWindow()->AddButton("Tower3", "Paintadier", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("Tower3", "Tower2", EDirection::eSouth);
+
+			UI.MainWindow()->AddButton("Tower4", "Painttillary", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("Tower4", "Tower3", EDirection::eSouth);
+
+			UI.MainWindow()->AddButton("Tower5", "Unknown tower", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("Tower5", "Tower4", EDirection::eSouth);
+
+			UI.MainWindow()->AddButton("x2Speed", "x2_WARNING:FAST", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("x2Speed", "Tower5", EDirection::eSouth);
+
+			UI.MainWindow()->AddButton("NextWave", "NextWave", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("NextWave", "x2Speed", EDirection::eSouth);	
+			
+			UI.MainWindow()->AddButton("Pause", "Pause", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("Pause", "NextWave", EDirection::eSouth);
+
+			UI.MainWindow()->AddButton("Reset", "Reset", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("Reset", "Pause", EDirection::eSouth);	
+			
+			UI.MainWindow()->AddButton("LevelStopper?", "LevelStopper?", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("LevelStopper?", "Reset", EDirection::eSouth);	
+			
+			UI.MainWindow()->AddButton("AddMoney", "AddMoney", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("AddMoney", "LevelStopper?", EDirection::eSouth);	
+			
+			UI.MainWindow()->AddButton("AddExp", "AddExp", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("AddExp", "AddMoney", EDirection::eSouth);
+
+			test = false;
+		}
+		else if (loadgameUi == false)
+		{
+			UI.MainWindow()->DeleteObject("Tower1");
+			UI.MainWindow()->DeleteObject("Tower2");
+			UI.MainWindow()->DeleteObject("Tower3");
+			UI.MainWindow()->DeleteObject("Tower4");
+			UI.MainWindow()->DeleteObject("Tower5");
+			UI.MainWindow()->DeleteObject("x2Speed");
+			UI.MainWindow()->DeleteObject("NextWave");
+			UI.MainWindow()->DeleteObject("Pause");
+			UI.MainWindow()->DeleteObject("Reset");
+			UI.MainWindow()->DeleteObject("LevelStopper?");
+			UI.MainWindow()->DeleteObject("AddMoney");
+			UI.MainWindow()->DeleteObject("AddExp");
+			test = true;
+		}
+
 	}
 
-}
+	
 
 void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::string& buttonName, bool pressed, int* userId)
 {
 	//Main Menu
-	
+
 	if (buttonName == "Start")//runs the game code from worldspace
 	{
 		std::cout << "Starting Game" << std::endl;
-		Map_Pointer->GeneratePath(1);
+		enabledGen = true;
 		loadMenu = false;
 		loadgameUi = true;
-		
+
 	}
 
 	if (buttonName == "Options")
@@ -124,9 +191,7 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 		loadMenu = false;
 		UI.MainWindow()->AddButton("Test", "Test", EButtonType::eRadio);
 		UI.MainWindow()->PositionRelativeTo("Test", "Start", EDirection::eSouth);
-		//add music volume button
-		//fullscreen / resolution
-		//credits
+
 		World_Pointer->ResetFile();
 
 	}
@@ -135,59 +200,95 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 	{
 		std::cout << "Exiting Game" << std::endl;
 		loadMenu = false;
-		HAPI_Sprites.Close(); 
+		HAPI_Sprites.Close();
 	}
 
 	//In game UI
 
-	if (buttonName == "Tower 1")
+	if (buttonName == "Tower1")
 	{
 		std::cout << "Tower 1 successfully placed" << std::endl;
+		enabledTower1 = true;
+		enabledTower2 = false;
+		enabledTower3 = false;
+		enabledTower4 = false;
+		enabledTower5 = false;
 	}
 
-	if (buttonName == "Tower 2")
+	if (buttonName == "Tower2")
 	{
 		std::cout << "Tower 2 successfully placed" << std::endl;
+		enabledTower1 = false;
+		enabledTower2 = true;
+		enabledTower3 = false;
+		enabledTower4 = false;
+		enabledTower5 = false;
 	}
 
-	if (buttonName == "Tower 3")
+	if (buttonName == "Tower3")
 	{
 		std::cout << "Tower 3 successfully placed" << std::endl;
+		enabledTower1 = false;
+		enabledTower2 = false;
+		enabledTower3 = true;
+		enabledTower4 = false;
+		enabledTower5 = false;
 	}
 
-	if (buttonName == "Tower 4")
+	if (buttonName == "Tower4")
 	{
 		std::cout << "Tower 4 successfully placed" << std::endl;
+		enabledTower1 = false;
+		enabledTower2 = false;
+		enabledTower3 = false;
+		enabledTower4 = true;
+		enabledTower5 = false;
 	}
 
-	if (buttonName == "Tower 5")
+	if (buttonName == "Tower5")
 	{
 		std::cout << "Tower 5 successfully placed" << std::endl;
-	}
+		enabledTower1 = false;
+		enabledTower2 = false;
+		enabledTower3 = false;
+		enabledTower4 = false;
+		enabledTower5 = true;
 
-	if (buttonName == "Tower 6")
-	{
-		std::cout << "Tower 6 successfully placed" << std::endl;
-	}
+		if (buttonName == "x2Speed")
+		{
+			std::cout << "x2Speed Is Working" << std::endl;
+		}
 
-	if (buttonName == "Tower 7")
-	{
-		std::cout << "Tower 7 successfully placed" << std::endl;
-	}
+		if (buttonName == "NextWave")
+		{
+			std::cout << "Next Wave Is Spawning" << std::endl;
+			nextWave = true;
+		}
 
-	if (buttonName == "Tower 8")
-	{
-		std::cout << "Tower 8 successfully placed" << std::endl;
-	}
+		if (buttonName == "Pause")
+		{
+			std::cout << "Pausing Game" << std::endl;
+		}
 
-	if (buttonName == "Tower 9")
-	{
-		std::cout << "Tower 9 successfully placed" << std::endl;
-	}
+		if (buttonName == "Reset")
+		{
+			std::cout << "Resetting Game" << std::endl;
+		}
 
-	if (buttonName == "Tower 10")
-	{
-		std::cout << "Tower 10 successfully placed" << std::endl;
+		if (buttonName == "LevelStopper?")
+		{
+			std::cout << "StoppingTheLevel?" << std::endl;
+		}
+
+		if (buttonName == "AddMoney")
+		{
+			std::cout << "Adding Money" << std::endl;
+		}
+
+		if (buttonName == "AddExp")
+		{
+			std::cout << "AddExp" << std::endl;
+		}
 	}
 }
 

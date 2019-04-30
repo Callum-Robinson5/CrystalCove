@@ -1,14 +1,5 @@
 #include "Worldspace.h"
-#include <HAPISprites_Lib.h>
-#include <stdlib.h>
-#include <fstream>
-#include <iostream>
-
-
-
-using namespace HAPISPACE;
-using namespace std;
-
+#include "UserInterface.h"
 
 Worldspace::Worldspace()
 {
@@ -24,8 +15,11 @@ Worldspace::~Worldspace()
 void Worldspace::Game()
 {
 
+	UserInterface UserInt;
+
+	
 	Map Maptest;
-	Maptest.GeneratePath(m_difficulty);
+	
 
 	for (int i{ 0 }; i < maxTowers; i++)
 	{
@@ -44,10 +38,19 @@ void Worldspace::Game()
 	
 	float i = 50.0f;
 	xp.difficulty(1);
+	
 
 	while (HAPI_Sprites.Update())
 	{
 		i += 5.0f;
+
+
+		if (UserInt.enabledGen == true)
+		{
+			Maptest.GeneratePath(m_difficulty);
+			UserInt.enabledGen = false;
+		}
+		
 		
 		SCREEN_SURFACE->Clear();
 
@@ -57,6 +60,7 @@ void Worldspace::Game()
 		scrollValue -= mouseData.wheelMovement/3;
 		//sprite->Render(SCREEN_SURFACE);
 		Maptest.RenderMap(scrollValue);
+
 
 		for (auto & enemy : Enemies)
 		{
@@ -95,17 +99,25 @@ void Worldspace::Game()
 
 		xp.updateXp();
 
-		if (mouse.leftButtonDown)
-		{
-			SpawnWave(20, 70);
-			PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
-			
-		}
-
 		if (mouse.rightButtonDown)
 		{
-			ResetFile();
+			
+			if (UserInt.enabledTower1 == true)
+			{
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				std::cout << "test" << std::endl;
+			}
+			
 		}
+		if (UserInt.nextWave == true)
+		{
+			SpawnWave(20, 70);
+			UserInt.nextWave = false;
+		}
+
+		UserInt.MainMenuUI();
+		UserInt.GameUI();
+
 	}
 
 	if (!HAPI_Sprites.Update())
@@ -190,7 +202,7 @@ void Worldspace::Initialise()
 // Loading data before game starts
 	ConfigLoad();
 	LoadFile();
-	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined"))
+	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined", eHSEnableUI))
 	{
 		return;
 	}

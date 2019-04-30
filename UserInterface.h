@@ -20,10 +20,19 @@ public:
 	void GameUI();
 	Map *Map_Pointer{ nullptr }; //declared pointer towards the Map class
 	Worldspace *World_Pointer{ nullptr }; //declared pointer towards the worldspace class
+//	TowerAI *Tower_Pointer{ nullptr }; //declared pointer towards the tower class
 	bool loadMenu = true;
 	bool loadgameUi = false;
 	bool test = true;
 	bool test1 = true;
+
+	bool enabledTower1{ false };
+	bool enabledTower2{ false };
+	bool enabledTower3{ false };
+	bool enabledTower4{ false };
+	bool enabledTower5{ false };
+	bool nextWave{ false };
+	bool enabledGen{ false };
 
 private:
 	
