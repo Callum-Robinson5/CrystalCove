@@ -1,5 +1,15 @@
 #include "Worldspace.h"
 #include "UserInterface.h"
+#include <HAPISprites_Lib.h>
+#include <stdlib.h>
+#include <fstream>
+#include <iostream>
+
+
+
+using namespace HAPISPACE;
+using namespace std;
+
 
 Worldspace::Worldspace()
 {
@@ -14,12 +24,11 @@ Worldspace::~Worldspace()
 
 void Worldspace::Game()
 {
-
 	UserInterface UserInt;
 
-	
+
 	Map Maptest;
-	
+
 
 	for (int i{ 0 }; i < maxTowers; i++)
 	{
@@ -35,10 +44,10 @@ void Worldspace::Game()
 	{
 		Enemies.push_back(EnemyAI());
 	}
-	
+
 	float i = 50.0f;
 	xp.difficulty(1);
-	
+
 
 	while (HAPI_Sprites.Update())
 	{
@@ -50,14 +59,14 @@ void Worldspace::Game()
 			Maptest.GeneratePath(m_difficulty);
 			UserInt.enabledGen = false;
 		}
-		
-		
+
+
 		SCREEN_SURFACE->Clear();
 
 
 		//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
 		const HAPISPACE::HAPI_TMouseData &mouseData = HAPI_Sprites.GetMouseData();
-		scrollValue -= mouseData.wheelMovement/3;
+		scrollValue -= mouseData.wheelMovement / 3;
 		//sprite->Render(SCREEN_SURFACE);
 		Maptest.RenderMap(scrollValue);
 
@@ -81,7 +90,7 @@ void Worldspace::Game()
 			tower.search(Enemies, m_Projectiles);
 		}
 
-			
+
 		//test render for Level
 		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
 		HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
@@ -89,11 +98,11 @@ void Worldspace::Game()
 		//test render for xp
 		HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::RED, "XP: ", 40);
 		HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::RED, std::to_string(xp.getXp()), 40);
-		
+
 		//test render for currency
 		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
 		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
-		
+
 
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
 
@@ -101,17 +110,17 @@ void Worldspace::Game()
 
 		if (mouse.rightButtonDown)
 		{
-			
+
 			if (UserInt.enabledTower1 == true)
 			{
 				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
 				std::cout << "test" << std::endl;
 			}
-			
+
 		}
 		if (UserInt.nextWave == true)
 		{
-			SpawnWave(20, 70);
+			SpawnWave(numEnemiesInWave, 70);
 			UserInt.nextWave = false;
 		}
 
@@ -130,9 +139,10 @@ void Worldspace::Game()
 
 }
 
-void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
+void Worldspace::SpawnWave(int& numEnemies, int distanceBetweenEnemies)
 {
 	bool allDead = true;
+
 	for (int i{ 0 };i<maxEnemies; i++)
 	{
 		if (Enemies[i].isAlive())
@@ -144,10 +154,44 @@ void Worldspace::SpawnWave(int numEnemies, int distanceBetweenEnemies)
 	
 	if (allDead)
 	{
-		for (int i{ 0 }; i < numEnemies; i++)
+		if (waveNumber % 5 != 0)
 		{
-			Enemies[i].spawn(&xp, -(i*distanceBetweenEnemies));
+			if (waveNumber == 1)
+			{
+				avaliableEnemies.push_back('G');
+			}
+			else if (waveNumber == 6)
+			{
+				avaliableEnemies.push_back('g');
+			}
+			else if (waveNumber == 11)
+			{
+				avaliableEnemies.push_back('s');
+			}
+
+
+			for (int i{ 0 }; i < numEnemies; i++)
+			{
+				Enemies[i].spawn(&xp, avaliableEnemies[rand() % avaliableEnemies.size()], -(i*distanceBetweenEnemies));
+			}
 		}
+		else
+		{
+			for (int i{ 0 }; i < waveNumber / 5; i++)
+			{
+				Enemies[i].spawn(&xp, 'S', -(i*distanceBetweenEnemies));
+			}
+		}
+		if (numEnemies < maxEnemies)
+		{
+			numEnemiesInWave += rand() & 6;
+			if (numEnemies > maxEnemies)
+			{
+				numEnemies = maxEnemies;
+			}
+		}
+		waveNumber++;
+
 	}
 }
 
