@@ -27,7 +27,7 @@ public:
 
 	std::vector<EnemyAI> GetEnemies() { return Enemies; };
 
-	void SpawnWave(int numEnemies, int distanceBetweenEnemies);
+	void SpawnWave(int& numEnemies, int distanceBetweenEnemies);
 	void PlaceTower(VectorF position, Map & map, std::vector<TowerAI> & towers);
 
 
@@ -43,6 +43,12 @@ private:
 	int maxEnemies{ 50 };
 	int maxTowers{ 50 };
 	int maxProjectiles{ 100 };
+
+
+
+	int waveNumber{ 1 };
+	int numEnemiesInWave{ 20 };
+	std::vector<char> avaliableEnemies;
 
 
 	std::vector<EnemyAI> Enemies;

@@ -11,7 +11,7 @@ EnemyAI::~EnemyAI()
 }
 
 
-void EnemyAI::spawn(XP* xp, int yPos = 0)
+void EnemyAI::spawn(XP* xp, char type, int yPos = 0)
 {
 	if (!sprite)
 	{
@@ -19,6 +19,34 @@ void EnemyAI::spawn(XP* xp, int yPos = 0)
 		return;
 	}
 
+
+	switch (type)
+	{
+	case 'G':
+		sprite = HAPI_Sprites.MakeSprite("Data\\Enemy/Golem.png");
+		enemy_health = 20;
+		m_speed = 5;
+		sprite->GetTransformComp().SetScaling(VectorF(1, 1));
+		break;
+	case 'g':
+		sprite = HAPI_Sprites.MakeSprite("Data\\Enemy/Goblin.png");
+		enemy_health = 10;
+		m_speed = 10;
+		sprite->GetTransformComp().SetScaling(VectorF(1, 1));
+		break;
+	case 's':
+		sprite = HAPI_Sprites.MakeSprite("Data\\Enemy/Shrek_the_Snek.png");
+		enemy_health = 15;
+		m_speed = 10;
+		sprite->GetTransformComp().SetScaling(VectorF(0.7, 0.7));
+		break;
+	case 'S':
+		sprite = HAPI_Sprites.MakeSprite("Data\\Enemy/Shrek_the_Snek.png");
+		enemy_health = 70;
+		m_speed = 10;
+		sprite->GetTransformComp().SetScaling(VectorF(1.5, 1.5));
+		break;
+	}
 
 	sprite->GetTransformComp().SetOriginToCentreOfFrame();
 	

@@ -9,7 +9,7 @@ public:
 	EnemyAI();
 	virtual ~EnemyAI();
 
-	void spawn(XP* xp, int yPos);
+	void spawn(XP* xp, char type, int yPos);
 	void render(int &yOffset);
 	void move(const std::vector<HAPISPACE::VectorF> &path);
 	void die();
