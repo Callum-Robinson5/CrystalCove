@@ -87,23 +87,26 @@ void Worldspace::Game()
 
 		for (auto & tower : m_Towers)
 		{
-			tower.render(scrollValue);
-			tower.search(Enemies, m_Projectiles);
+			if (tower.isSpawned())
+			{
+				tower.render(scrollValue);
+				tower.search(Enemies, m_Projectiles);
+			}
 		}
 
 		if (xpON == true)
 		{
 			//test render for Level
-			HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
-			HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
+			HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::WHITE, "Level: ", 40);
+			HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::WHITE, std::to_string(xp.getLevel()), 40);
 
 			//test render for xp
-			HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::RED, "XP: ", 40);
-			HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::RED, std::to_string(xp.getXp()), 40);
+			HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::WHITE, "XP: ", 40);
+			HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::WHITE, std::to_string(xp.getXp()), 40);
 
 			//test render for currency
-			HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
-			HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
+			HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::WHITE, "Currency: ", 40);
+			HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::WHITE, std::to_string(xp.getCurrency()), 40);
 		}
 
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };

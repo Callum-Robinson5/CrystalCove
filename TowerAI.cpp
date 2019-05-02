@@ -24,10 +24,10 @@ void TowerAI::spawn( char type, int &yOffset)
 	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
 
 	if (!sprite)
-				{
-					HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
-					return;
-				}
+	{
+		HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
+		return;
+	}
 
 	
 				switch (type) ///different settings for each tower
@@ -108,6 +108,7 @@ void TowerAI::fire(VectorF direction, std::vector<Projectiles>& projectiles)
 		if (!projectile.isSpawned())
 		{
 			projectile.spawn(direction, m_Tower_Position);
+			std::cout << "Tower creates projectile?" << std::endl;
 			break;
 		}
 	}
