@@ -45,20 +45,23 @@ void Worldspace::Game()
 		Enemies.push_back(EnemyAI());
 	}
 
-	float i = 50.0f;
 	xp.difficulty(1);
 
 
 	while (HAPI_Sprites.Update())
 	{
-		i += 5.0f;
+		
 
+
+		
 
 		if (UserInt.enabledGen == true)
 		{
 			Maptest.GeneratePath(m_difficulty);
 			UserInt.enabledGen = false;
 			xpON = true;
+			Credits = true;
+			xp.setCurrency(500);
 		}
 
 
@@ -107,6 +110,28 @@ void Worldspace::Game()
 			//test render for currency
 			HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::WHITE, "Currency: ", 40);
 			HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::WHITE, std::to_string(xp.getCurrency()), 40);
+		}
+
+		if (Credits == false)
+		{
+
+			credits -= 0.1f;
+
+			if (credits <= -500)
+			{
+				credits = m_height;
+			}
+			HAPI_Sprites.RenderText(VectorI(1000, 10 + credits), Colour255::WHITE, "Designers:", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 50 + credits), Colour255::WHITE, "Cameron,", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 90 + credits), Colour255::WHITE, "Jack.", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 150 + credits), Colour255::WHITE, "Programmers:", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 190 + credits), Colour255::WHITE, "Matt,", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 230 + credits), Colour255::WHITE, "Kathryn,", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 270 + credits), Colour255::WHITE, "Callum,", 40);
+			HAPI_Sprites.RenderText(VectorI(1000, 310 + credits), Colour255::WHITE, "Nathan.", 40);
+
+			HAPISprite->GetTransformComp().SetPosition(VectorF(1000, 350 + credits));
+			HAPISprite->Render(SCREEN_SURFACE);
 		}
 
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
@@ -244,8 +269,30 @@ void Worldspace::SpawnWave(int& numEnemies, int distanceBetweenEnemies)
 
 void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & towers, char type)
 {
-	if (xp.getCurrency() >= 100)
-	{
+	
+	
+		switch (type) ///different settings for each tower
+		{
+		case 'T':
+			cost = tower2;
+			
+			break;
+		case 't':
+			cost = tower1;
+
+			break;
+		case 'P':
+			cost = tower3;
+
+			break;
+		case 'p':
+			 cost = tower4;
+
+			break;
+		}
+
+		if (xp.getCurrency() >= cost)
+		{
 		bool canSpawn = true;
 		for (auto & tile : map.GetPath())
 		{
@@ -280,7 +327,7 @@ void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & tower
 				if (!tower.isSpawned())
 				{
 					tower.spawn(type, scrollValue);
-					xp.addCurrency(-100);
+					xp.addCurrency(-cost);
 					break;
 				}
 			}

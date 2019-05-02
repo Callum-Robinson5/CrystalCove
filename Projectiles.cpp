@@ -6,6 +6,7 @@ using namespace HAPISPACE;
 
 Projectiles::Projectiles()
 {
+	
 }
 
 
@@ -66,7 +67,8 @@ void Projectiles::Collision(std::vector<EnemyAI> & enemies, int & yOffset)
 			enemy.getSprite()->GetTransformComp().SetPosition({ enemy.getSprite()->GetTransformComp().GetPosition().x, enemy.getSprite()->GetTransformComp().GetPosition().y + yOffset });
 			if (sprite->CheckCollision(*(enemy.getSprite())))
 			{
-				enemy.takeDamage(5);
+				enemy.takeDamage(damage);
+				std::cout << damage << std::endl;
 				if (enemy.getHealth() <= 0)
 					enemy.die();
 				m_Spawned = false;

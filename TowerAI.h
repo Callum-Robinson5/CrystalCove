@@ -25,6 +25,7 @@ private:
 	int m_Range{ 300 };
 	int coolDown{ 10 };
 	int fireRate{ 700 };
+	int damage{ 0 };
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paint Thrower.png");
 	bool m_Spawned{ false };
 	

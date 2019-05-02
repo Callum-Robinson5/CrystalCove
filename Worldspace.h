@@ -51,14 +51,21 @@ private:
 	int numEnemiesInWave{ 20 };
 	std::vector<char> avaliableEnemies;
 
+	//Tower Costs
+	int tower1{ 100 };
+	int tower2{ 300 };
+	int tower3{ 500 };
+	int tower4{ 700 };
+	int cost{ 0 };
 
 	std::vector<EnemyAI> Enemies;
 	std::vector<TowerAI> m_Towers;
 	std::vector<Projectiles> m_Projectiles;
-	
+	float credits{ 0 };
+	std::shared_ptr<HAPISPACE::Sprite> HAPISprite = HAPI_Sprites.MakeSprite("Data\\Default\\HAPI_Sprites_Logo.png");
 	class XP xp;
 	void Game();
-	
+	bool Credits{ false };
 	void ConfigLoad();
 	void SaveFile();
 	void LoadFile();

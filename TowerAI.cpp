@@ -34,22 +34,26 @@ void TowerAI::spawn( char type, int &yOffset)
 				{
 				case 'T':
 					 sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paint Thrower.png");
-					fireRate = 200;
+					fireRate = 300;
+					damage = 10;
 					
 					break;
 				case 't':
 					sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paint Slinger.png");
-					fireRate = 600;
+					fireRate = 200;
+					damage = 5;
 					
 					break;
 				case 'P':
 					sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paintadier.png");
-					fireRate = 400;
+					fireRate = 500;
+					damage = 20;
 					
 					break;
 				case 'p':
 					sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Painttillary.png");
-					fireRate = 700;
+					fireRate = 1000;
+					damage = 50;
 					
 
 					break;
@@ -107,6 +111,7 @@ void TowerAI::fire(VectorF direction, std::vector<Projectiles>& projectiles)
 	{
 		if (!projectile.isSpawned())
 		{
+			projectile.damage = damage;
 			projectile.spawn(direction, m_Tower_Position);
 			std::cout << "Tower creates projectile?" << std::endl;
 			break;

@@ -111,17 +111,17 @@ void UserInterface::GameUI()
 
 		if (loadgameUi == true && test == true)
 		{
-			UI.MainWindow()->AddButton("Tower1", "Paint Slinger", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower1", "Paint Slinger: 100", EButtonType::eRadio);
 			HAPISPACE::VectorI ButtonPos(World_Pointer->GetScreenSize().x - 200, 100);
 			UI.MainWindow()->SetScreenPosition(ButtonPos);
 
-			UI.MainWindow()->AddButton("Tower2", "Paint Thrower (Level 5)", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower2", "Paint Thrower: 300 (Level 5)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower2", "Tower1", EDirection::eSouth);
 
-			UI.MainWindow()->AddButton("Tower3", "Paintadier (Level 8)", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower3", "Paintadier: 500 (Level 8)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower3", "Tower2", EDirection::eSouth);
 
-			UI.MainWindow()->AddButton("Tower4", "Painttillary (Level 11)", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower4", "Painttillary: 700 (Level 11)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower4", "Tower3", EDirection::eSouth);
 
 			UI.MainWindow()->AddButton("Tower5", "Unknown tower (Level 14)", EButtonType::eRadio);

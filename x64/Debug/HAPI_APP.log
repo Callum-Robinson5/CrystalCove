@@ -1,22 +1,63 @@
 ﻿  Worldspace.cpp
-c:\users\t7091066\source\crystalcove-mastermaster\hapi_app\worldspace.cpp(125): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(122): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(124): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(125): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(126): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(127): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(128): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(129): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(130): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(131): warning C4244: 'argument': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(150): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-c:\users\t7091066\source\crystalcove-mastermaster\hapi_app\worldspace.cpp(131): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(156): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-c:\users\t7091066\source\crystalcove-mastermaster\hapi_app\worldspace.cpp(137): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(162): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-c:\users\t7091066\source\crystalcove-mastermaster\hapi_app\worldspace.cpp(143): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+c:\users\callum\desktop\aaa\hapi_app\worldspace.cpp(168): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-  HAPI_APP.vcxproj -> C:\Users\t7091066\Source\CrystalCove-masterMASTER\x64\Debug\HAPI_APP.exe
+  HAPI_APP.vcxproj -> C:\Users\Callum\Desktop\aaa\x64\Debug\HAPI_APP.exe
