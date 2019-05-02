@@ -1,4 +1,4 @@
 PlayerXp: 0
-Level: 3
-Currency: 399800
+Level: 11
+Currency: 15048
 Difficulty: 1

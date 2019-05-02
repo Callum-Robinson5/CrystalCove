@@ -11,7 +11,7 @@ public:
 	TowerAI();
 	~TowerAI();
 public:
-	void spawn(int &yOffset);
+	void spawn(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles, char type, int &yOffset);
 	void render(int &yOffset);
 	void search(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles);
 	const VectorF getTowerPosition() { return m_Tower_Position; };
@@ -24,8 +24,7 @@ private:
 	VectorF m_Tower_Position;
 	int m_Range{ 300 };
 	int coolDown{ 10 };
-	int fireRate{ 100 };
-
+	int fireRate{ 700 };
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paint Thrower.png");
 	bool m_Spawned{ false };
 	
