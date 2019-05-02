@@ -115,16 +115,16 @@ void UserInterface::GameUI()
 			HAPISPACE::VectorI ButtonPos(World_Pointer->GetScreenSize().x - 200, 100);
 			UI.MainWindow()->SetScreenPosition(ButtonPos);
 
-			UI.MainWindow()->AddButton("Tower2", "Paint Thrower", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower2", "Paint Thrower (Level 5)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower2", "Tower1", EDirection::eSouth);
 
-			UI.MainWindow()->AddButton("Tower3", "Paintadier", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower3", "Paintadier (Level 8)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower3", "Tower2", EDirection::eSouth);
 
-			UI.MainWindow()->AddButton("Tower4", "Painttillary", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower4", "Painttillary (Level 11)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower4", "Tower3", EDirection::eSouth);
 
-			UI.MainWindow()->AddButton("Tower5", "Unknown tower", EButtonType::eRadio);
+			UI.MainWindow()->AddButton("Tower5", "Unknown tower (Level 14)", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Tower5", "Tower4", EDirection::eSouth);
 
 			UI.MainWindow()->AddButton("x2Speed", "x2_WARNING:FAST", EButtonType::eRadio);

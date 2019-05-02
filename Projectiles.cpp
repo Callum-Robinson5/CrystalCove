@@ -27,7 +27,8 @@ void Projectiles::spawn(VectorF direction, VectorF TowerPosition)
 
 	m_Projectile_Position = { TowerPosition.x, TowerPosition.y + scrollValue };
 	m_Projectile_Direction = direction;
-	sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
+	setSize(0.3f);
+	//sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
 	sprite->GetTransformComp().SetRotation(0.0f);
 	m_Spawned = true;
 

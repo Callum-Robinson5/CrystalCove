@@ -12,6 +12,7 @@ public:
 	void spawn(VectorF direction, VectorF TowerPosition);
 	void render(int &yOffset);
 	void move();
+	void setSize(VectorF size) { sprite->GetTransformComp().SetScaling({ size });; };
 	void Collision(std::vector<EnemyAI> & enemys, int & yOffset);
 	void Update(std::vector<EnemyAI> & enemies, int & yOffset);
 	const bool isSpawned() { return m_Spawned; };
