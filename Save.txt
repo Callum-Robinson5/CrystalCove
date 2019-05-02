@@ -1,4 +1,4 @@
-PlayerXp: 115
-Level: 2
-Currency: 100
+PlayerXp: 0
+Level: 17
+Currency: 13012
 Difficulty: 1

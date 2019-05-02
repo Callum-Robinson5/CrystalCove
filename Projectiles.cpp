@@ -31,6 +31,7 @@ void Projectiles::spawn(VectorF direction, VectorF TowerPosition)
 	//sprite->GetTransformComp().SetScaling({ 0.3f, 0.3f });
 	sprite->GetTransformComp().SetRotation(0.0f);
 	m_Spawned = true;
+	std::cout << "Spawned" << std::endl;
 
 }
 
