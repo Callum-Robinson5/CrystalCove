@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <time.h>
 
 Map::Map()
 {
@@ -12,6 +13,10 @@ Map::~Map()
 
 bool Map::GeneratePath(int Difficulty)
 {
+	srand(time(0));
+
+	backgroundType = rand() % 7;
+
 	bool* pointer = m_MapData;
 
 	//Initiating the Map by setting all values to 0
@@ -244,25 +249,125 @@ void Map::RenderMap(int &yOffset)
 		yOffset = 100 * (m_Height - 8);
 	//grass->GetTransformComp().SetScaling({ 2.5,2.5 });
 	//path->GetTransformComp().SetScaling({ 2.5,2.5 });
-	bool* pointer = m_MapData;
+
+	
+	std::shared_ptr<HAPISPACE::Sprite> background;
+	switch (backgroundType)
+	{
+	case 0:
+		background = grass;
+		break;
+	case 1:
+		background = dirt;
+		break;
+	case 2:
+		background = mud;
+		break;
+	case 3:
+		background = magma;
+		break;
+	case 4:
+		background = sand;
+		break;
+	case 5:
+		background = water;
+		break;
+	case 6:
+		background = obsidian;
+		break;
+	default:
+
+		break;
+	}
+
+
 	for (int i{ 0 }; i < m_Height; i++)
 	{
 		for (int j{ 0 }; j < m_Width; j++)
 		{
-			if (*pointer == 0)
+				background->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
+				background->Render(SCREEN_SURFACE);
+		}
+	}
+	for (int i{ 0 }; i < m_Path.size(); i++)
+	{
+		if (i != m_Path.size() - 1)
+		{
+			if (i != 0)
 			{
-				grass->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
-				grass->Render(SCREEN_SURFACE);
-				//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::GREEN, std::to_string(*pointer), 20);
-				pointer++;
+				if (m_Path[i].y > m_Path[i - 1].y && m_Path[i].y < m_Path[i + 1].y)
+				{
+					scales->GetTransformComp().SetRotation(0);
+					scales->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, 50 + yOffset));
+					scales->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i].x < m_Path[i - 1].x && m_Path[i].y < m_Path[i + 1].y)
+				{
+					scalesCorner->GetTransformComp().SetRotation(0);
+					scalesCorner->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, 50 + yOffset));
+					scalesCorner->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i].x > m_Path[i - 1].x && m_Path[i].y < m_Path[i + 1].y)
+				{
+					scalesCorner->GetTransformComp().SetRotation(1.5708);
+					scalesCorner->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(-50, 50 + yOffset));
+					scalesCorner->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i].y > m_Path[i - 1].y && m_Path[i].x > m_Path[i + 1].x)
+				{
+					scalesCorner->GetTransformComp().SetRotation(3.14159);
+					scalesCorner->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(-50, -50 + yOffset));
+					scalesCorner->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i].y > m_Path[i - 1].y && m_Path[i].x < m_Path[i + 1].x)
+				{
+					scalesCorner->GetTransformComp().SetRotation(4.71239);
+					scalesCorner->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, -50 + yOffset));
+					scalesCorner->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i].x > m_Path[i - 1].x && m_Path[i].x < m_Path[i + 1].x)
+				{
+
+					scales->GetTransformComp().SetRotation(4.71239);
+					scales->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, -50 + yOffset));
+					scales->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i].x < m_Path[i - 1].x && m_Path[i].x > m_Path[i + 1].x)
+				{
+
+					scales->GetTransformComp().SetRotation(1.5708);
+					scales->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(-50, 50 + yOffset));
+					scales->Render(SCREEN_SURFACE);
+				}
 			}
-			else if (*pointer == 1)
+			else
 			{
-				path->GetTransformComp().SetPosition({ (float)(j * 100), (float)((i * 100) - yOffset) });
-				path->Render(SCREEN_SURFACE);
-				//HAPI_Sprites.RenderText(VectorI(j * 32, i * 40), Colour255::MAGENTA, std::to_string(*pointer), 20);
-				pointer++;
+				if (m_Path[i + 1].x > m_Path[i].x)
+				{
+					scalesCorner->GetTransformComp().SetRotation(4.71239);
+					scalesCorner->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, -50 + yOffset));
+					scalesCorner->Render(SCREEN_SURFACE);
+				}
+				else if (m_Path[i + 1].x < m_Path[i].x)
+				{
+					scalesCorner->GetTransformComp().SetRotation(3.14159);
+					scalesCorner->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(-50, -50 + yOffset));
+					scalesCorner->Render(SCREEN_SURFACE);
+				}
+				else
+				{
+					scales->GetTransformComp().SetRotation(0);
+					scales->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, 50 + yOffset));
+					scales->Render(SCREEN_SURFACE);
+				}
 			}
+		}
+		else
+		{
+			
+			scales->GetTransformComp().SetRotation(0);
+			scales->GetTransformComp().SetPosition(m_Path[i] - HAPISPACE::VectorF(50, 50 + yOffset));
+			scales->Render(SCREEN_SURFACE);
 		}
 	}
 }
