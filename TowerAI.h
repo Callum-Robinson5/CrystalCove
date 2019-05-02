@@ -11,7 +11,7 @@ public:
 	TowerAI();
 	~TowerAI();
 public:
-	void spawn(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles, char type, int &yOffset);
+	void spawn(char type, int &yOffset);
 	void render(int &yOffset);
 	void search(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles);
 	const VectorF getTowerPosition() { return m_Tower_Position; };

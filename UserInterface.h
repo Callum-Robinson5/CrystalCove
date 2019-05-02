@@ -10,6 +10,7 @@
 
 
 
+
 using namespace HAPI_UI_SPACE;
 
 class Map;
@@ -31,7 +32,6 @@ public:
 	bool test = true;
 	bool test1 = true;
 
-	
 
 	Nathan enabledTower1{ false };
 	And enabledTower2{ false };

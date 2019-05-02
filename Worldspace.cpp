@@ -112,34 +112,38 @@ void Worldspace::Game()
 
 		if (mouse.rightButtonDown)
 		{
+			char a = 't';
+			char b = 'T';
+			char c = 'P';
+			char d = 'p';
 
 			if (UserInt.enabledTower1 == true)
 			{
-				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers, a);
 				std::cout << "test" << std::endl;
 			}
 
 			if (UserInt.enabledTower2 == true && xp.getLevel() >= 5) 
 			{
-				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers, b);
 				std::cout << "test1" << std::endl;
 			}
 
 			if (UserInt.enabledTower3 == true && xp.getLevel() >= 8)
 			{
-				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers, c);
 				std::cout << "test" << std::endl;
 			}
 
 			if (UserInt.enabledTower4 == true && xp.getLevel() >= 11)
 			{
-				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers, d);
 				std::cout << "test" << std::endl;
 			}
 
 			if (UserInt.enabledTower5 == true && xp.getLevel() >= 14)
 			{
-				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				//PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
 				std::cout << "test" << std::endl;
 			}
 		}
@@ -157,6 +161,11 @@ void Worldspace::Game()
 		{
 			xp.addCurrency(1000);
 			UserInt.infMoney = false;
+		}
+		if (UserInt.reset == true)
+		{
+			ResetFile();
+			UserInt.reset = false;
 		}
 
 		UserInt.MainMenuUI();
@@ -230,7 +239,7 @@ void Worldspace::SpawnWave(int& numEnemies, int distanceBetweenEnemies)
 	}
 }
 
-void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & towers)
+void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & towers, char type)
 {
 	if (xp.getCurrency() >= 100)
 	{
@@ -267,7 +276,7 @@ void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & tower
 			{
 				if (!tower.isSpawned())
 				{
-					tower.spawn(Enemies, m_Projectiles, 'T', scrollValue);
+					tower.spawn(type, scrollValue);
 					xp.addCurrency(-100);
 					break;
 				}
@@ -281,7 +290,7 @@ void Worldspace::Initialise()
 // Loading data before game starts
 	ConfigLoad();
 	LoadFile();
-	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Error, Game name undefined", eHSEnableUI))
+	if (!HAPI_Sprites.Initialise(m_width, m_height, "Crystal Cove - Devil's Causeway", eHSEnableUI))
 	{
 		return;
 	}
