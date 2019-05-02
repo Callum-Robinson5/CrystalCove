@@ -1,2 +1,22 @@
-﻿  UserInterface.cpp
+﻿  Worldspace.cpp
+c:\users\t7091066\source\crystalcove-master\hapi_app\worldspace.cpp(122): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\t7091066\source\crystalcove-master\hapi_app\worldspace.cpp(128): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\t7091066\source\crystalcove-master\hapi_app\worldspace.cpp(134): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+c:\users\t7091066\source\crystalcove-master\hapi_app\worldspace.cpp(140): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
   HAPI_APP.vcxproj -> C:\Users\t7091066\Source\CrystalCove-master\x64\Debug\HAPI_APP.exe

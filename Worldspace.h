@@ -28,7 +28,7 @@ public:
 	std::vector<EnemyAI> GetEnemies() { return Enemies; };
 
 	void SpawnWave(int& numEnemies, int distanceBetweenEnemies);
-	void PlaceTower(VectorF position, Map & map, std::vector<TowerAI> & towers);
+	void PlaceTower(VectorF position, Map & map, vector<TowerAI> & towers, char type);
 	bool xpON{ false };
 
 
