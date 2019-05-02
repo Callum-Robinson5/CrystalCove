@@ -31,14 +31,14 @@ void UserInterface::MainMenuUI()
 	if (loadMenu == true && test1 == true)
 	{
 		UI.MainWindow()->AddButton("Start", "Start", EButtonType::eRadio);
-		HAPISPACE::VectorI ButtonPos(World_Pointer->GetScreenSize() / 2);
+		HAPISPACE::VectorI ButtonPos(550,332); //2 pixels make all the difference apparently
 		UI.MainWindow()->SetScreenPosition(ButtonPos);
 
-		UI.MainWindow()->AddButton("Options", "Options", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Options", "Start", EDirection::eSouth);
+//		UI.MainWindow()->AddButton("Options", "Options", EButtonType::eRadio);
+//		UI.MainWindow()->PositionRelativeTo("Options", "Start", EDirection::eSouth);
 
 		UI.MainWindow()->AddButton("Exit", "Exit", EButtonType::eRadio);
-		UI.MainWindow()->PositionRelativeTo("Exit", "Options", EDirection::eSouth);
+		UI.MainWindow()->PositionRelativeTo("Exit", "Start", EDirection::eSouth);
 		test1 = false;
 	}
 	else if(loadMenu == false)
@@ -130,24 +130,21 @@ void UserInterface::GameUI()
 			UI.MainWindow()->AddButton("x2Speed", "x2_WARNING:FAST", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("x2Speed", "Tower5", EDirection::eSouth);
 
-			UI.MainWindow()->AddButton("NextWave", "NextWave", EButtonType::eRadio);
-			UI.MainWindow()->PositionRelativeTo("NextWave", "x2Speed", EDirection::eSouth);	
-			
+			UI.MainWindow()->AddButton("NextWave", "Next Wave", EButtonType::eRadio);
+			UI.MainWindow()->PositionRelativeTo("NextWave", "x2Speed", EDirection::eSouth);
+
 			UI.MainWindow()->AddButton("Pause", "Pause", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("Pause", "NextWave", EDirection::eSouth);
 
 			UI.MainWindow()->AddButton("Reset", "Reset", EButtonType::eRadio);
-			UI.MainWindow()->PositionRelativeTo("Reset", "Pause", EDirection::eSouth);	
-			
-			UI.MainWindow()->AddButton("LevelStopper?", "LevelStopper?", EButtonType::eRadio);
-			UI.MainWindow()->PositionRelativeTo("LevelStopper?", "Reset", EDirection::eSouth);	
-			
+			UI.MainWindow()->PositionRelativeTo("Reset", "Pause", EDirection::eSouth);
+
 			UI.MainWindow()->AddButton("AddMoney", "AddMoney", EButtonType::eRadio);
-			UI.MainWindow()->PositionRelativeTo("AddMoney", "LevelStopper?", EDirection::eSouth);	
-			
+			UI.MainWindow()->PositionRelativeTo("AddMoney", "Reset", EDirection::eSouth);
+
 			UI.MainWindow()->AddButton("AddExp", "AddExp", EButtonType::eRadio);
 			UI.MainWindow()->PositionRelativeTo("AddExp", "AddMoney", EDirection::eSouth);
-
+			
 			test = false;
 		}
 		else if (loadgameUi == false)
@@ -161,7 +158,6 @@ void UserInterface::GameUI()
 			UI.MainWindow()->DeleteObject("NextWave");
 			UI.MainWindow()->DeleteObject("Pause");
 			UI.MainWindow()->DeleteObject("Reset");
-			UI.MainWindow()->DeleteObject("LevelStopper?");
 			UI.MainWindow()->DeleteObject("AddMoney");
 			UI.MainWindow()->DeleteObject("AddExp");
 			test = true;
@@ -187,12 +183,9 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 	if (buttonName == "Options")
 	{
 		std::cout << "Loading Options" << std::endl;
-		// make optional buttons appear (for example; music volume)
 		loadMenu = false;
 		UI.MainWindow()->AddButton("Test", "Test", EButtonType::eRadio);
 		UI.MainWindow()->PositionRelativeTo("Test", "Start", EDirection::eSouth);
-
-		World_Pointer->ResetFile();
 
 	}
 
@@ -254,10 +247,7 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 		enabledTower4 = false;
 		enabledTower5 = true;
 
-		if (buttonName == "x2Speed")
-		{
-			std::cout << "x2Speed Is Working" << std::endl;
-		}
+	}
 
 		if (buttonName == "NextWave")
 		{
@@ -273,23 +263,27 @@ void UserInterface::UI_RadioButtonChangeState(UIWindow& window, const std::strin
 		if (buttonName == "Reset")
 		{
 			std::cout << "Resetting Game" << std::endl;
-		}
-
-		if (buttonName == "LevelStopper?")
-		{
-			std::cout << "StoppingTheLevel?" << std::endl;
+			reset = true;
 		}
 
 		if (buttonName == "AddMoney")
 		{
 			std::cout << "Adding Money" << std::endl;
+			infMoney = true;
 		}
 
 		if (buttonName == "AddExp")
 		{
 			std::cout << "AddExp" << std::endl;
+			infXP = true;
 		}
-	}
+
+		if (buttonName == "x2Speed")
+		{
+			std::cout << "FAST BOI" << std::endl;
+			x2 = true;
+		}
+	
 }
 
 

@@ -2,6 +2,11 @@
 #include <HAPISprites_Lib.h>
 #include <HAPISprites_UI.h>
 #include <iostream>
+#define Nathan bool
+#define And bool
+#define Callum bool
+#define elephantRidingATree bool
+
 
 
 
@@ -26,13 +31,19 @@ public:
 	bool test = true;
 	bool test1 = true;
 
-	bool enabledTower1{ false };
-	bool enabledTower2{ false };
-	bool enabledTower3{ false };
-	bool enabledTower4{ false };
-	bool enabledTower5{ false };
-	bool nextWave{ false };
-	bool enabledGen{ false };
+	
+
+	Nathan enabledTower1{ false };
+	And enabledTower2{ false };
+	Callum enabledTower3{ false };
+	elephantRidingATree enabledTower4{ false };
+	elephantRidingATree enabledTower5{ false };
+	elephantRidingATree nextWave{ false };
+	elephantRidingATree enabledGen{ false };
+	elephantRidingATree infMoney{ false };
+	elephantRidingATree infXP{ false };
+	elephantRidingATree reset{ false };
+	elephantRidingATree x2{ false };
 
 private:
 	
