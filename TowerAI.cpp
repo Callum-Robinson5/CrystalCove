@@ -14,15 +14,52 @@ TowerAI::~TowerAI()
 {
 }
 
-void TowerAI::spawn(int &yOffset)
+
+
+
+
+void TowerAI::spawn(std::vector<EnemyAI> Enemies, std::vector<Projectiles>& projectiles, char type, int &yOffset)
 {
-	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
 	
+	const HAPISPACE::MouseData &mouseData = HAPI_Sprites.GetMouseData();
+
 	if (!sprite)
-	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
-		return;
-	}
+				{
+					HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
+					return;
+				}
+
+	for (auto & enemy : Enemies)
+		for (auto & projectile : projectiles)
+		{
+			{
+				switch (type) ///different settings for each tower
+				{
+				case 'T':
+					 sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paint Thrower.png");
+					fireRate = 200;
+					enemy.takeDamage(2);
+					break;
+				case 't':
+					sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paint Slinger.png");
+					fireRate = 600;
+					enemy.takeDamage(2);
+					break;
+				case 'P':
+					sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Paintadier.png");
+					fireRate = 400;
+					enemy.takeDamage(5);
+					break;
+				case 'p':
+					sprite = HAPI_Sprites.MakeSprite("Data\\Towers/Painttillary.png");
+					fireRate = 700;
+					enemy.takeDamage(10);
+					projectile.setSize(0.7f);
+
+					break;
+				}
+			}
+		}
 
 	float x = mouseData.x;
 	float y = mouseData.y;
@@ -33,7 +70,7 @@ void TowerAI::spawn(int &yOffset)
 
 }
 
-void TowerAI::render(int &yOffset)
+void TowerAI::render(int &yOffset) //renders the tower and sets its position
 {
 	if (m_Spawned)
 	{

@@ -29,6 +29,7 @@ public:
 
 	void SpawnWave(int& numEnemies, int distanceBetweenEnemies);
 	void PlaceTower(VectorF position, Map & map, std::vector<TowerAI> & towers);
+	bool xpON{ false };
 
 
 	void ResetFile();

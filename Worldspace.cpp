@@ -58,6 +58,7 @@ void Worldspace::Game()
 		{
 			Maptest.GeneratePath(m_difficulty);
 			UserInt.enabledGen = false;
+			xpON = true;
 		}
 
 
@@ -90,19 +91,20 @@ void Worldspace::Game()
 			tower.search(Enemies, m_Projectiles);
 		}
 
+		if (xpON == true)
+		{
+			//test render for Level
+			HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
+			HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
 
-		//test render for Level
-		HAPI_Sprites.RenderText(VectorI(1, 10), Colour255::RED, "Level: ", 40);
-		HAPI_Sprites.RenderText(VectorI(120, 10), Colour255::RED, std::to_string(xp.getLevel()), 40);
+			//test render for xp
+			HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::RED, "XP: ", 40);
+			HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::RED, std::to_string(xp.getXp()), 40);
 
-		//test render for xp
-		HAPI_Sprites.RenderText(VectorI(1, 50), Colour255::RED, "XP: ", 40);
-		HAPI_Sprites.RenderText(VectorI(80, 50), Colour255::RED, std::to_string(xp.getXp()), 40);
-
-		//test render for currency
-		HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
-		HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
-
+			//test render for currency
+			HAPI_Sprites.RenderText(VectorI(1, 90), Colour255::RED, "Currency: ", 40);
+			HAPI_Sprites.RenderText(VectorI(190, 90), Colour255::RED, std::to_string(xp.getCurrency()), 40);
+		}
 
 		const MouseData& mouse{ HAPI_Sprites.GetMouseData() };
 
@@ -117,11 +119,44 @@ void Worldspace::Game()
 				std::cout << "test" << std::endl;
 			}
 
+			if (UserInt.enabledTower2 == true && xp.getLevel() >= 5) 
+			{
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				std::cout << "test1" << std::endl;
+			}
+
+			if (UserInt.enabledTower3 == true && xp.getLevel() >= 8)
+			{
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				std::cout << "test" << std::endl;
+			}
+
+			if (UserInt.enabledTower4 == true && xp.getLevel() >= 11)
+			{
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				std::cout << "test" << std::endl;
+			}
+
+			if (UserInt.enabledTower5 == true && xp.getLevel() >= 14)
+			{
+				PlaceTower(VectorF(mouse.x, mouse.y), Maptest, m_Towers);
+				std::cout << "test" << std::endl;
+			}
 		}
 		if (UserInt.nextWave == true)
 		{
 			SpawnWave(numEnemiesInWave, 70);
 			UserInt.nextWave = false;
+		}
+		if (UserInt.infXP == true)
+		{
+			xp.addXp(1000);
+			UserInt.infXP = false;
+		}
+		if (UserInt.infMoney == true)
+		{
+			xp.addCurrency(1000);
+			UserInt.infMoney = false;
 		}
 
 		UserInt.MainMenuUI();
@@ -232,7 +267,7 @@ void Worldspace::PlaceTower(VectorF position, Map & map, vector<TowerAI> & tower
 			{
 				if (!tower.isSpawned())
 				{
-					tower.spawn(scrollValue);
+					tower.spawn(Enemies, m_Projectiles, 'T', scrollValue);
 					xp.addCurrency(-100);
 					break;
 				}
